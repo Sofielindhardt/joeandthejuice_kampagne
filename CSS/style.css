@@ -712,3 +712,438 @@ dialog .close {
     flex-direction: column;
   }
 }
+
+
+/* ====================================
+   RESPONSIVE DESIGN – MOBIL
+   ==================================== */
+
+@media screen and (max-width: 700px) {
+
+  /* GENERELT */
+
+  html,
+  body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  body {
+    font-size: 14px;
+  }
+
+  main {
+    width: 100%;
+    max-width: 100%;
+    padding: 25px 16px;
+  }
+
+  /* HEADER */
+
+  header {
+    height: auto;
+    min-height: 75px;
+    padding: 15px 16px;
+    gap: 12px;
+  }
+
+  .brand {
+    font-size: 22px;
+    line-height: 1;
+  }
+
+  .brand span {
+    font-size: 8px;
+    letter-spacing: 2px;
+    margin-top: 6px;
+  }
+
+  .edition {
+    display: none;
+  }
+
+  .small {
+    font-size: 11px;
+    padding: 10px 12px;
+    white-space: nowrap;
+  }
+
+  /* INTRO */
+
+  .intro {
+    width: 100%;
+    margin-bottom: 25px;
+  }
+
+  .eyebrow {
+    font-size: 9px;
+    letter-spacing: 1.5px;
+  }
+
+  h1 {
+    font-size: clamp(46px, 12vw, 76px);
+    line-height: 0.9;
+    letter-spacing: -1px;
+    width: 100%;
+    max-width: 100%;
+    margin: 22px 0;
+  }
+
+  h1 em {
+    padding: 0 8px 4px 0;
+    max-width: 100%;
+  }
+
+  .spark {
+    display: none;
+  }
+
+  .intro > p {
+    position: static;
+    font-size: 13px;
+    line-height: 1.6;
+    margin: 15px 0 20px;
+  }
+
+  /* INGREDIENSER */
+
+  .ingredients {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin: 20px 0;
+  }
+
+  .ingredients span {
+    font-size: 8px;
+    padding: 7px 10px;
+    letter-spacing: 0.5px;
+  }
+
+  /* LAYOUT */
+
+  .layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+    width: 100%;
+  }
+
+  /* SPILOMRÅDE */
+
+  .arena {
+    width: 100%;
+    height: min(580px, 68dvh);
+    min-height: 390px;
+    border-radius: 14px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+    touch-action: none;
+  }
+
+  /* POINT OG TIMER */
+
+  .hud {
+    top: 18px;
+    left: 16px;
+    right: 16px;
+  }
+
+  .label {
+    font-size: 9px;
+    letter-spacing: 1px;
+  }
+
+  .hud strong {
+    font-size: 38px;
+  }
+
+  .hud small {
+    font-size: 8px;
+    letter-spacing: 0.7px;
+  }
+
+  .timer {
+    width: 58px;
+    height: 58px;
+    padding: 7px;
+  }
+
+  .timer span {
+    font-size: 25px;
+  }
+
+  #pause {
+    right: 70px;
+    width: 36px;
+    height: 36px;
+  }
+
+  /* BAGGRUNDSTEKST */
+
+  .arena-title {
+    top: 35%;
+    font-size: clamp(38px, 10vw, 60px);
+    padding: 0 10px;
+  }
+
+  /* STARTSKÆRM */
+
+  .overlay {
+    padding: 20px;
+  }
+
+  .tag {
+    font-size: 9px;
+    letter-spacing: 1.5px;
+  }
+
+  .overlay h2 {
+    font-size: clamp(38px, 10vw, 55px);
+    line-height: 0.95;
+    margin: 20px 0;
+  }
+
+  .overlay p {
+    font-size: 12px;
+    line-height: 1.6;
+    max-width: 290px;
+  }
+
+  .primary {
+    min-width: 0;
+    width: min(100%, 260px);
+    padding: 15px 18px;
+    font-size: 22px;
+  }
+
+  .overlay .fine {
+    font-size: 9px;
+    margin-top: 18px;
+  }
+
+  /* SPILLETS FOOTER */
+
+  .game-footer {
+    left: 15px;
+    right: 15px;
+    bottom: 15px;
+    font-size: 7px;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  /* ADVENTSKALENDER */
+
+  aside {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .progress-card {
+    width: 100%;
+    padding: 22px 18px;
+    border-radius: 14px;
+  }
+
+  .card-top {
+    font-size: 10px;
+  }
+
+  .progress-card h2 {
+    font-size: 34px;
+    margin: 22px 0;
+  }
+
+  .days {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .day {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .day b {
+    height: 55px;
+    font-size: 26px;
+  }
+
+  .day small {
+    font-size: 8px;
+    line-height: 1.3;
+    margin-top: 7px;
+  }
+
+  .progress-card p {
+    font-size: 12px;
+    line-height: 1.6;
+  }
+
+  .voucher-btn {
+    padding: 15px;
+    font-size: 13px;
+    border-radius: 5px;
+  }
+
+  .demo-note {
+    font-size: 10px;
+    line-height: 1.7;
+  }
+
+  /* PRODUKTKORT */
+
+  .product {
+    display: flex;
+    width: 100%;
+    min-height: 180px;
+    border-radius: 12px;
+  }
+
+  .product-art {
+    width: 43%;
+    background-position: center;
+    background-size: cover;
+  }
+
+  .product-copy {
+    width: 57%;
+    padding: 20px 12px;
+  }
+
+  .product-copy h3 {
+    font-size: 28px;
+  }
+
+  .product-copy p {
+    font-size: 10px;
+  }
+
+  /* NULSTIL */
+
+  .bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    margin: 25px 0;
+    font-size: 10px;
+    line-height: 1.5;
+  }
+
+  .bottom button {
+    padding: 8px 0;
+    font-size: 11px;
+  }
+
+  /* FOOTER */
+
+  footer {
+    padding: 20px 16px;
+    flex-direction: column;
+    gap: 10px;
+    font-size: 9px;
+    line-height: 1.5;
+  }
+
+  /* DIALOG */
+
+  dialog {
+    width: calc(100% - 32px);
+    max-width: 480px;
+    max-height: 85dvh;
+    overflow-y: auto;
+    padding: 28px 20px;
+  }
+
+  dialog h2 {
+    font-size: 36px;
+  }
+
+  dialog p,
+  dialog li {
+    font-size: 13px;
+  }
+
+  .ticket {
+    padding: 20px 12px;
+  }
+
+  .ticket strong {
+    font-size: 29px;
+  }
+}
+
+/* ====================================
+   SMÅ MOBILER – 375 PX OG DERUNDER
+   ==================================== */
+
+@media screen and (max-width: 375px) {
+
+  main {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  h1 {
+    font-size: 46px;
+  }
+
+  .brand {
+    font-size: 19px;
+  }
+
+  .small {
+    font-size: 10px;
+    padding: 9px;
+  }
+
+  .arena {
+    min-height: 375px;
+    height: 65dvh;
+  }
+
+  .overlay h2 {
+    font-size: 38px;
+  }
+
+  .overlay p {
+    font-size: 11px;
+  }
+
+  .primary {
+    font-size: 20px;
+    padding: 13px 15px;
+  }
+
+  .progress-card {
+    padding: 18px 12px;
+  }
+
+  .progress-card h2 {
+    font-size: 29px;
+  }
+
+  .day b {
+    height: 46px;
+    font-size: 23px;
+  }
+
+  .day small {
+    font-size: 7px;
+  }
+
+  .product-copy h3 {
+    font-size: 24px;
+  }
+}
