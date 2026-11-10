@@ -1,13 +1,69 @@
 "use strict";
 
-/* FIND HTML-ELEMENTER */
+/* =========================================
+   SLICE INTO CHRISTMAS
+   JOE & THE JUICE – ADVENTSSPIL
+========================================= */
+
+/* HTML-ELEMENTER */
 
 const $ = (selector) => document.querySelector(selector);
 
 const canvas = $("#game");
 const ctx = canvas.getContext("2d");
 
-/* GEMT ADVENTSFREMGANG */
+/* =========================================
+   BILLEDER OG INGREDIENSER
+========================================= */
+
+// Billedstier er relative til index.html
+
+const imagePaths = [
+  "img/appelsin.png", // 0
+  "img/hindbaer.png", // 1
+  "img/tranebaer.png", // 2
+  "img/æble.png", // 3
+  "img/ingefaer.png", // 4
+  "img/julekugle1.png", // 5: Bombe
+  "img/julekugle2.png", // 6: Bombe
+];
+
+const fruitImages = imagePaths.map((path) => {
+  const image = new Image();
+  image.src = path;
+
+  image.onerror = () => {
+    console.error("Kunne ikke indlæse billedet:", path);
+  };
+
+  return image;
+});
+
+const palette = [
+  "#e67b17",
+  "#c41d43",
+  "#9f183b",
+  "#d64443",
+  "#ce9e62",
+  "#ff4166",
+  "#ff4166",
+];
+
+/* =========================================
+   POINT OG SPILREGLER
+========================================= */
+
+const POINTS_FRUIT = 10;
+const POINTS_BOMB = -20;
+
+const GAME_DURATION = 25;
+
+// Sandsynlighed for at en julekugle dukker op
+const BOMB_CHANCE = 0.15;
+
+/* =========================================
+   GEMT ADVENTSFREMGANG
+========================================= */
 
 const KEY = "joe-advent-demo-v1";
 
@@ -16,10 +72,12 @@ let completed = 0;
 try {
   completed = Math.max(0, Math.min(4, Number(localStorage.getItem(KEY)) || 0));
 } catch {
-  // Spillet virker også uden localStorage.
+  // Spillet kan stadig bruges uden localStorage
 }
 
-/* SPILLETS VARIABLER */
+/* =========================================
+   SPILLETS VARIABLER
+========================================= */
 
 let w = 0;
 let h = 0;
@@ -32,10 +90,11 @@ let floats = [];
 
 let playing = false;
 let paused = false;
-let remaining = 25;
 
+let remaining = GAME_DURATION;
 let score = 0;
 let round = 1;
+
 let spawn = 0;
 let last = 0;
 
@@ -47,9 +106,9 @@ let comboTime = 0;
 
 let action = "start";
 
-const palette = ["#e67b17", "#c41d43", "#9f183b", "#d64443", "#ce9e62"];
-
-/* TILPAS CANVAS TIL SKÆRMEN */
+/* =========================================
+   RESPONSIV CANVAS
+========================================= */
 
 function resize() {
   const rect = canvas.getBoundingClientRect();
@@ -59,15 +118,31 @@ function resize() {
 
   dpr = Math.min(window.devicePixelRatio || 1, 2);
 
-  canvas.width = w * dpr;
-  canvas.height = h * dpr;
+  canvas.width = Math.round(w * dpr);
+  canvas.height = Math.round(h * dpr);
 
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 }
 
-new ResizeObserver(resize).observe(canvas);
+if (typeof ResizeObserver !== "undefined") {
+  new ResizeObserver(resize).observe(canvas);
+} else {
+  window.addEventListener("resize", resize);
+}
 
-/* OPDATER ADVENTSOVERSIGTEN */
+resize();
+
+/* =========================================
+   OPDATER POINT
+========================================= */
+
+function updateScore() {
+  $("#score").textContent = String(score).padStart(3, "0");
+}
+
+/* =========================================
+   ADVENTSFREMGANG
+========================================= */
 
 function updateProgress() {
   $("#count").textContent = completed + " / 4";
@@ -108,11 +183,16 @@ function initial() {
 
 initial();
 
-/* DIALOGER */
+/* =========================================
+   DIALOGER
+========================================= */
 
 function showModal(html) {
   $("#modalContent").innerHTML = html;
-  $("#modal").showModal();
+
+  if (!$("#modal").open) {
+    $("#modal").showModal();
+  }
 }
 
 $(".close").onclick = () => {
@@ -125,7 +205,9 @@ $("#modal").addEventListener("click", (event) => {
   }
 });
 
-/* SPILLEREGLER */
+/* =========================================
+   SPILLEREGLER
+========================================= */
 
 $("#rulesBtn").onclick = () => {
   if (playing && !paused) {
@@ -146,33 +228,40 @@ $("#rulesBtn").onclick = () => {
       </li>
 
       <li>
-        Hold musen nede og træk gennem frugterne,
-        eller stryg med fingeren.
-        Med tastatur kan du trykke mellemrum.
+        Swipe gennem frugterne med musen
+        eller fingeren.
       </li>
 
       <li>
-        Spil runden færdig.
-        Din deltagelse registreres uanset din score.
+        Hver frugt giver 10 point.
       </li>
 
       <li>
-        Gennemfør alle fire runder for at se demovoucheren.
+        Pas på julekuglerne!
+        De trækker 20 point fra.
+      </li>
+
+      <li>
+        Gennemfør alle fire adventsrunder
+        for at låse op for demovoucheren.
       </li>
     </ol>
 
     <p>
       <b>Prototype:</b>
-      Her er alle søndage tilgængelige med det samme.
-      Medlemskab og datoer er simuleret.
-      Ingen rigtig præmie eller forbindelse til JOEs app.
+      Alle adventsrunder kan spilles nu.
+      Ingen rigtig præmie eller app-integration.
     </p>
   `);
 };
 
-/* DEMOVOUCHER */
+/* =========================================
+   DEMOVOUCHER
+========================================= */
 
 function voucher() {
+  if (completed < 4) return;
+
   showModal(`
     <div class="eyebrow">
       4 AF 4 · GENNEMFØRT
@@ -184,34 +273,42 @@ function voucher() {
     </h2>
 
     <div class="ticket">
-      <span>DEMO · IKKE GYLDIG I BUTIK</span>
+      <span>
+        DEMO · IKKE GYLDIG I BUTIK
+      </span>
 
       <strong>
         ÉN GRATIS<br>
         MERRY BERRY BOOST
       </strong>
 
-      <p>Din adventsrejse er gennemført.</p>
+      <p>
+        Din adventsrejse er gennemført.
+      </p>
     </div>
 
     <p>
-      I den færdige kampagne skulle voucheren ligge
-      i appen med tydelig gyldighed og indløsningsvejledning.
-      Denne prototype udsteder ingen rigtig voucher.
+      I den færdige kampagne skal voucheren
+      være tilgængelig i Joe & The Juice-appen.
+
+      Denne prototype udsteder
+      ingen rigtig voucher.
     </p>
   `);
 }
 
 $("#voucher").onclick = voucher;
 
-/* NULSTIL DEMO */
+/* =========================================
+   NULSTIL SPILLET
+========================================= */
 
 $("#reset").onclick = () => {
   showModal(`
     <h2>START FORFRA?</h2>
 
     <p>
-      Det nulstiller de fire adventsdage i denne browser.
+      Vil du nulstille dine fire adventsrunder?
     </p>
 
     <button class="primary" id="confirmReset">
@@ -227,17 +324,20 @@ $("#reset").onclick = () => {
     try {
       localStorage.removeItem(KEY);
     } catch {
-      // Fortsæt uden localStorage.
+      // Fortsæt uden localStorage
     }
 
     fruits = [];
     particles = [];
+    trail = [];
+    floats = [];
 
     score = 0;
-    remaining = 25;
+    remaining = GAME_DURATION;
 
-    $("#score").textContent = "000";
-    $("#time").textContent = "25";
+    updateScore();
+
+    $("#time").textContent = GAME_DURATION;
 
     $("#pause").hidden = true;
     $("#overlay").hidden = false;
@@ -246,9 +346,11 @@ $("#reset").onclick = () => {
 
     $("#overlayText").innerHTML =
       "Hold musen nede eller stryg med fingeren.<br>" +
-      "Skær frugterne, og nyd de næste 25 sekunder.";
+      "Skær frugterne, og undgå julekuglerne!";
 
     $("#overlayTag").textContent = "DIT ADVENTSØJEBLIK";
+
+    $("#overlayFine").textContent = "+10 for frugt. -20 for julekugle.";
 
     action = "start";
 
@@ -258,7 +360,9 @@ $("#reset").onclick = () => {
   };
 };
 
-/* START EN RUNDE */
+/* =========================================
+   START SPILLET
+========================================= */
 
 function start() {
   if (action === "resume") {
@@ -273,30 +377,41 @@ function start() {
   trail = [];
   floats = [];
 
-  remaining = 25;
+  remaining = GAME_DURATION;
   score = 0;
+
   combo = 0;
+  comboTime = 0;
+
   spawn = 0.1;
 
   playing = true;
   paused = false;
   drag = false;
 
+  previous = null;
+
   $("#overlay").hidden = true;
   $("#pause").hidden = false;
+
   $("#pause").textContent = "Ⅱ";
 
-  $("#score").textContent = "000";
-  $("#time").textContent = "25";
+  updateScore();
+
+  $("#time").textContent = GAME_DURATION;
+
   $("#roundLabel").textContent = round + ". ADVENT";
 
   last = performance.now();
+
   canvas.focus();
 }
 
 $("#start").onclick = start;
 
-/* PAUSE */
+/* =========================================
+   PAUSE
+========================================= */
 
 function togglePause() {
   if (!playing) return;
@@ -304,6 +419,7 @@ function togglePause() {
   paused = !paused;
 
   $("#pause").textContent = paused ? "▶" : "Ⅱ";
+
   $("#overlay").hidden = !paused;
 
   if (paused) {
@@ -318,6 +434,8 @@ function togglePause() {
     $("#start").innerHTML = "FORTSÆT <span>↗</span>";
   } else {
     action = "start";
+
+    last = performance.now();
     canvas.focus();
   }
 
@@ -333,10 +451,13 @@ document.addEventListener("visibilitychange", () => {
   }
 });
 
-/* AFSLUT RUNDE */
+/* =========================================
+   AFSLUT RUNDE
+========================================= */
 
 function finish() {
   playing = false;
+  paused = false;
   drag = false;
 
   const wasDone = completed === 4;
@@ -347,7 +468,7 @@ function finish() {
     try {
       localStorage.setItem(KEY, completed);
     } catch {
-      // Fremgangen virker stadig, indtil siden lukkes.
+      // Fremgangen gemmes kun i sessionen
     }
   }
 
@@ -366,17 +487,18 @@ function finish() {
       : "GODT SKÅRET.<br>VI SES IGEN!";
 
   $("#overlayText").innerHTML = `
-    Du fik ${score} point.
+    Du fik <strong>${score} point</strong>.
+    <br>
     ${
       completed === 4
-        ? "Alle fire deltagelser er registreret."
+        ? "Alle fire adventsrunder er gennemført!"
         : "Din deltagelse er registreret."
     }
     <br>
     ${
       completed === 4
         ? "Åbn din demovoucher i adventsoversigten."
-        : "I demoen kan du prøve næste søndag med det samme."
+        : "I demoen kan du prøve næste advent med det samme."
     }
   `;
 
@@ -385,8 +507,7 @@ function finish() {
       ? `SPIL ${completed + 1}. ADVENT <span>↗</span>`
       : "SPIL IGEN <span>↗</span>";
 
-  $("#overlayFine").textContent =
-    "Deltagelse tæller — ikke en bestemt highscore.";
+  $("#overlayFine").textContent = "+10 for frugt. -20 for julekugle.";
 
   action = "start";
 
@@ -394,13 +515,29 @@ function finish() {
     `Runde gennemført med ${score} point. ` + `${completed} af 4 adventsdage.`;
 }
 
-/* OPRET FRUGTER */
+/* =========================================
+   OPRET FRUGTER OG BOMBER
+========================================= */
 
 function makeFruit() {
-  const radius = 25 + Math.random() * 12;
+  const radius = 30 + Math.random() * 12;
+
+  // 15 % chance for en julekugle
+  const isBomb = Math.random() < BOMB_CHANCE;
+
+  let type;
+
+  if (isBomb) {
+    // Vælg mellem de to julekugler
+    type = Math.random() < 0.5 ? 5 : 6;
+  } else {
+    // Vælg mellem fem ingredienser
+    type = Math.floor(Math.random() * 5);
+  }
 
   fruits.push({
     x: w * (0.16 + Math.random() * 0.68),
+
     y: h + radius,
 
     vx: (Math.random() - 0.5) * 110,
@@ -409,19 +546,33 @@ function makeFruit() {
 
     r: radius,
 
-    // 0: appelsin, 1: hindbær, 2: tranebær,
-    // 3: æble, 4: ingefær.
-    type: Math.floor(Math.random() * 5),
+    type: type,
+    isBomb: isBomb,
 
     a: Math.random() * 6,
+
     spin: (Math.random() - 0.5) * 2,
+
     cut: false,
   });
 }
 
-/* TEGN FRUGTER PÅ CANVAS */
+
+/* =========================================
+   TEGN FRUGTER OG BLINKENDE JULEKUGLER
+========================================= */
 
 function fruit(f) {
+  const image = fruitImages[f.type];
+
+  if (
+    !image ||
+    !image.complete ||
+    !image.naturalWidth
+  ) {
+    return;
+  }
+
   ctx.save();
 
   ctx.translate(f.x, f.y);
@@ -429,176 +580,134 @@ function fruit(f) {
 
   const r = f.r;
 
-  // Klip frugten i to, når den er skåret.
-  if (f.cut) {
+  /* JULEKUGLER – DISKRET BLINKEEFFEKT */
+
+  if (f.isBomb) {
+    const time = performance.now() / 1000;
+
+    // Blød og langsom blinkeeffekt
+    const blink = (Math.sin(time * 7) + 1) / 2;
+
+    // Diskret rød glød
+    ctx.shadowColor = "#ff4569";
+    ctx.shadowBlur = 5 + blink * 13;
+    ctx.shadowOffsetY = 0;
+
+    // Let variation i gennemsigtighed
+    ctx.globalAlpha = 0.85 + blink * 0.15;
+
+  } else {
+    /* ALMINDELIGE FRUGTER */
+
+    ctx.shadowColor = "#0008";
+    ctx.shadowBlur = 12;
+    ctx.shadowOffsetY = 5;
+  }
+
+  /* OPDEL FRUGTEN VED SLICE */
+
+  if (f.cut && f.side) {
     ctx.rotate(f.side * 0.4);
 
     ctx.beginPath();
 
-    ctx.rect(f.side < 0 ? -r * 2 : 0, -r * 2, r * 2, r * 4);
+    if (f.side < 0) {
+      ctx.rect(-r, -r, r, r * 2);
+    } else {
+      ctx.rect(0, -r, r, r * 2);
+    }
 
     ctx.clip();
   }
 
-  ctx.shadowColor = "#0008";
-  ctx.shadowBlur = 13;
-  ctx.shadowOffsetY = 5;
+  /* BEHOLD BILLEDETS PROPORTIONER */
 
-  if (f.type === 1) {
-    /* HINDBÆR */
+  const maxSize = r * 2;
 
-    for (let y = -2; y <= 2; y++) {
-      for (let x = -2; x <= 2; x++) {
-        if (x * x + y * y > 6) continue;
+  const scale = Math.min(
+    maxSize / image.naturalWidth,
+    maxSize / image.naturalHeight
+  );
 
-        const px = x * r * 0.3;
-        const py = y * r * 0.32;
+  const width = image.naturalWidth * scale;
+  const height = image.naturalHeight * scale;
 
-        const gradient = ctx.createRadialGradient(
-          px - 3,
-          py - 4,
-          1,
-          px,
-          py,
-          r * 0.25,
-        );
+  /* TEGN BILLEDET */
 
-        gradient.addColorStop(0, "#ff7890");
-        gradient.addColorStop(0.5, "#d62250");
-        gradient.addColorStop(1, "#850d2c");
-
-        ctx.fillStyle = gradient;
-
-        ctx.beginPath();
-        ctx.arc(px, py, r * 0.25, 0, Math.PI * 2);
-        ctx.fill();
-      }
-    }
-  } else if (f.type === 4) {
-    /* INGEFÆR */
-
-    ctx.fillStyle = "#c89b62";
-    ctx.strokeStyle = "#8d6038";
-    ctx.lineWidth = 1.5;
-
-    ctx.beginPath();
-
-    ctx.roundRect(-r * 0.9, -r * 0.4, r * 1.8, r * 0.8, r * 0.35);
-
-    ctx.fill();
-    ctx.stroke();
-
-    ctx.beginPath();
-
-    ctx.roundRect(-r * 0.2, -r * 0.8, r * 0.6, r * 1.1, r * 0.3);
-
-    ctx.fill();
-
-    for (let i = -2; i < 3; i++) {
-      ctx.beginPath();
-      ctx.moveTo(i * r * 0.28, -r * 0.2);
-
-      ctx.lineTo(i * r * 0.28 + 0.1 * r, r * 0.25);
-
-      ctx.stroke();
-    }
-  } else {
-    /* APPELSIN, TRANEBÆR OG ÆBLE */
-
-    const gradient = ctx.createRadialGradient(-r * 0.35, -r * 0.4, 2, 0, 0, r);
-
-    const highlight =
-      f.type === 0 ? "#ffd36b" : f.type === 2 ? "#f38493" : "#ff8b77";
-
-    gradient.addColorStop(0, highlight);
-    gradient.addColorStop(0.45, palette[f.type]);
-
-    gradient.addColorStop(1, f.type === 0 ? "#b94c06" : "#630e25");
-
-    ctx.fillStyle = gradient;
-
-    ctx.beginPath();
-
-    ctx.ellipse(0, 0, r, f.type === 3 ? r * 0.88 : r, 0, 0, Math.PI * 2);
-
-    ctx.fill();
-    ctx.shadowBlur = 0;
-
-    if (f.type === 0) {
-      /* APPELSINENS BÅDE */
-
-      ctx.fillStyle = "#ffbd5d";
-
-      ctx.beginPath();
-      ctx.arc(0, 0, r * 0.82, 0, Math.PI * 2);
-      ctx.fill();
-
-      for (let i = 0; i < 9; i++) {
-        const angle = (i * Math.PI * 2) / 9;
-
-        ctx.fillStyle = i % 2 ? "#ff9b27" : "#ffad3e";
-
-        ctx.beginPath();
-        ctx.moveTo(0, 0);
-
-        ctx.arc(0, 0, r * 0.73, angle + 0.05, angle + (Math.PI * 2) / 9 - 0.05);
-
-        ctx.closePath();
-        ctx.fill();
-      }
-
-      ctx.fillStyle = "#fff0c7";
-
-      ctx.beginPath();
-      ctx.arc(0, 0, r * 0.09, 0, 7);
-      ctx.fill();
-    } else {
-      /* GLANS, STILK OG BLAD */
-
-      ctx.fillStyle = "#ffffff66";
-
-      ctx.beginPath();
-
-      ctx.ellipse(-r * 0.3, -r * 0.4, r * 0.16, r * 0.09, -0.6, 0, 7);
-
-      ctx.fill();
-
-      ctx.strokeStyle = "#5a3925";
-      ctx.lineWidth = 4;
-
-      ctx.beginPath();
-      ctx.moveTo(0, -r * 0.75);
-      ctx.lineTo(4, -r * 1.1);
-      ctx.stroke();
-
-      ctx.fillStyle = "#697a42";
-
-      ctx.beginPath();
-
-      ctx.ellipse(r * 0.2, -r * 0.95, r * 0.27, r * 0.1, -0.4, 0, 7);
-
-      ctx.fill();
-    }
-  }
+  ctx.drawImage(
+    image,
+    -width / 2,
+    -height / 2,
+    width,
+    height
+  );
 
   ctx.restore();
 }
 
-/* SKÆR EN FRUGT */
+
+/* =========================================
+   RAM EN FRUGT ELLER JULEKUGLE
+========================================= */
 
 function slice(f) {
   if (f.cut) return;
 
   f.cut = true;
 
+  /* RAMT JULEKUGLE */
+
+  if (f.isBomb) {
+    score = Math.max(0, score + POINTS_BOMB);
+
+    updateScore();
+
+    combo = 0;
+    comboTime = 0;
+
+    // Vis -20 på skærmen
+    floats.push({
+      x: f.x,
+      y: f.y,
+      text: "-20",
+      color: "#ff5b7e",
+      t: 0.9,
+      maxT: 0.9,
+    });
+
+    // Rød eksplosion
+    for (let i = 0; i < 25; i++) {
+      particles.push({
+        x: f.x,
+        y: f.y,
+
+        vx: (Math.random() - 0.5) * 400,
+        vy: (Math.random() - 0.5) * 400,
+
+        r: 2 + Math.random() * 5,
+
+        t: 0.7,
+        maxT: 0.7,
+
+        color: Math.random() < 0.5 ? "#ff4166" : "#ffd5e8",
+      });
+    }
+
+    $("#announce").textContent = "Du ramte en julekugle. Minus 20 point.";
+
+    return;
+  }
+
+  /* RAMT FRUGT */
+
   combo = comboTime > 0 ? combo + 1 : 1;
   comboTime = 0.4;
 
-  score += 10;
+  score += POINTS_FRUIT;
 
-  $("#score").textContent = String(score).padStart(3, "0");
+  updateScore();
 
-  // Saftpartikler.
+  // Saftpartikler
   for (let i = 0; i < 15; i++) {
     particles.push({
       x: f.x,
@@ -608,34 +717,49 @@ function slice(f) {
       vy: (Math.random() - 0.5) * 250,
 
       r: 2 + Math.random() * 4,
+
       t: 0.65,
+      maxT: 0.65,
+
       color: palette[f.type],
     });
   }
 
-  // To halve frugter.
+  // To halve frugter
   for (const side of [-1, 1]) {
     particles.push({
       ...f,
-      side,
+
+      side: side,
       cut: true,
+
       vx: side * 95,
       vy: -65,
+
       t: 0.65,
+      maxT: 0.65,
+
       half: true,
     });
   }
 
-  // Flyvende pointtekst.
+  // Pointtekst
   floats.push({
     x: f.x,
     y: f.y,
+
     text: combo > 1 ? `+10 · ${combo}×` : "+10",
+
+    color: "#ffd5e8",
+
     t: 0.65,
+    maxT: 0.65,
   });
 }
 
-/* AFSTAND FRA FRUGT TIL SWIPE-LINJE */
+/* =========================================
+   AFSTAND FRA SWIPE TIL FRUGT
+========================================= */
 
 function segment(px, py, ax, ay, bx, by) {
   const dx = bx - ax;
@@ -649,7 +773,9 @@ function segment(px, py, ax, ay, bx, by) {
   return Math.hypot(px - ax - t * dx, py - ay - t * dy);
 }
 
-/* MUS OG TOUCH */
+/* =========================================
+   MUS OG TOUCH
+========================================= */
 
 function pointer(event) {
   const rect = canvas.getBoundingClientRect();
@@ -666,7 +792,16 @@ function swipe(point) {
   const from = previous || point;
 
   for (const f of fruits) {
-    const distance = segment(f.x, f.y, from.x, from.y, point.x, point.y);
+    const distance = segment(
+      f.x,
+      f.y,
+
+      from.x,
+      from.y,
+
+      point.x,
+      point.y,
+    );
 
     if (!f.cut && distance < f.r + 7) {
       slice(f);
@@ -705,7 +840,9 @@ for (const eventName of ["pointerup", "pointercancel", "lostpointercapture"]) {
   });
 }
 
-/* TASTATUR */
+/* =========================================
+   TASTATUR
+========================================= */
 
 canvas.addEventListener("keydown", (event) => {
   if (event.code === "Space") {
@@ -725,12 +862,13 @@ canvas.addEventListener("keydown", (event) => {
   }
 });
 
-/* ANIMATION OG SPILLOOP */
+/* =========================================
+   ANIMATION OG SPILLOOP
+========================================= */
 
 function frame(timestamp) {
-  const elapsed = (timestamp - last) / 1000 || 0;
+  const elapsed = last ? Math.max(0, (timestamp - last) / 1000) : 0;
 
-  // Begræns fysikkens spring mellem frames.
   const dt = Math.min(elapsed, 0.035);
 
   last = timestamp;
@@ -738,11 +876,14 @@ function frame(timestamp) {
   ctx.clearRect(0, 0, w, h);
 
   if (playing && !paused) {
+    /* NEDTÆLLING */
+
     remaining -= dt;
     comboTime -= dt;
     spawn -= dt;
 
-    // Send nye frugter op fra bunden.
+    /* OPRET NYE FRUGTER */
+
     if (spawn <= 0) {
       const numberOfFruits = 2 + Math.floor(Math.random() * 2);
 
@@ -755,20 +896,24 @@ function frame(timestamp) {
 
     $("#time").textContent = Math.max(0, Math.ceil(remaining));
 
-    // Opdater frugternes position og rotation.
+    /* FRUGTERNES FYSIK */
+
     for (const f of fruits) {
       f.x += f.vx * dt;
       f.y += f.vy * dt;
+
       f.vy += 450 * dt;
       f.a += f.spin * dt;
     }
 
     fruits = fruits.filter((f) => f.y < h + 100 && !f.cut);
 
-    // Opdater saftpartikler og halve frugter.
+    /* PARTIKLER OG HALVE FRUGTER */
+
     for (const p of particles) {
       p.x += p.vx * dt;
       p.y += p.vy * dt;
+
       p.vy += 350 * dt;
       p.t -= dt;
 
@@ -777,27 +922,33 @@ function frame(timestamp) {
       }
     }
 
-    // Flyt pointteksten opad.
+    /* FLYVENDE POINT */
+
     for (const f of floats) {
       f.y -= 45 * dt;
       f.t -= dt;
     }
 
+    /* TIDEN ER GÅET */
+
     if (remaining <= 0) {
       remaining = 0;
       $("#time").textContent = "0";
+
       finish();
     }
   }
 
-  // Tegn hele frugter.
+  /* TEGN FRUGTER OG BOMBER */
+
   for (const f of fruits) {
     fruit(f);
   }
 
-  // Tegn partikler og halve frugter.
+  /* TEGN PARTIKLER */
+
   for (const p of particles) {
-    ctx.globalAlpha = Math.max(0, p.t / 0.65);
+    ctx.globalAlpha = Math.max(0, p.t / p.maxT);
 
     if (p.half) {
       fruit(p);
@@ -805,7 +956,8 @@ function frame(timestamp) {
       ctx.fillStyle = p.color;
 
       ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, 7);
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+
       ctx.fill();
     }
   }
@@ -814,14 +966,18 @@ function frame(timestamp) {
 
   particles = particles.filter((p) => p.t > 0);
 
-  // Opdater swipe-sporet.
-  for (const point of trail) {
-    point.t -= dt;
+  /* OPDATER SWIPE-SPOR */
+
+  if (playing && !paused) {
+    for (const point of trail) {
+      point.t -= dt;
+    }
   }
 
   trail = trail.filter((point) => point.t > 0);
 
-  // Tegn lysende rosa swipe.
+  /* TEGN SWIPE-EFFEKT */
+
   if (trail.length > 1) {
     ctx.lineCap = "round";
     ctx.lineJoin = "round";
@@ -845,19 +1001,23 @@ function frame(timestamp) {
     ctx.stroke();
 
     ctx.shadowBlur = 0;
+
     ctx.strokeStyle = "#fff1f8";
     ctx.lineWidth = 2;
 
     ctx.stroke();
   }
 
-  // Tegn pointtekst.
+  /* TEGN POINTTEKST */
+
   ctx.font = "bold 22px Arial";
   ctx.textAlign = "center";
 
   for (const f of floats) {
-    ctx.globalAlpha = Math.max(0, f.t / 0.65);
-    ctx.fillStyle = "#ffd5e8";
+    ctx.globalAlpha = Math.max(0, f.t / f.maxT);
+
+    ctx.fillStyle = f.color;
+
     ctx.fillText(f.text, f.x, f.y);
   }
 
@@ -867,5 +1027,7 @@ function frame(timestamp) {
 
   requestAnimationFrame(frame);
 }
+
+/* START ANIMATIONSLOOP */
 
 requestAnimationFrame(frame);
