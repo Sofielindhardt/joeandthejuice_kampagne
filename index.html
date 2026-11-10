@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  >
+
+  <meta name="theme-color" content="#edb3c9">
+
+  <title>Slice into Christmas · Adventsspil</title>
+
+  <link rel="stylesheet" href="CSS/style.css">
+</head>
+
+<body>
+  <header>
+    <a href="./" class="brand">
+      JOE & THE JUICE
+      <span>CHRISTMAS CLUB</span>
+    </a>
+
+    <div class="edition">
+      MERRY BERRY BOOST
+      <i>✦</i>
+      LIMITED HOLIDAY DROP
+    </div>
+
+    <button class="small" id="rulesBtn">
+      Sådan spiller du ↗
+    </button>
+  </header>
+
+  <main>
+    <section class="intro">
+      <div class="eyebrow">
+        <span></span>
+        FIRE SØNDAGE. ÉN NY SMAG.
+      </div>
+
+      <h1>
+        SLICE INTO<br>
+        <em>CHRISTMAS</em>
+        <span class="spark">✳</span>
+      </h1>
+
+      <p>
+        En lille julepause. Et saftigt swipe.<br>
+        Leg med ingredienserne i Merry Berry Boost.
+      </p>
+
+      <div class="ingredients">
+        <span>TRANEBÆR</span>
+        <span>HINDBÆR</span>
+        <span>APPELSIN</span>
+        <span>ÆBLE</span>
+        <span>INGEFÆR</span>
+      </div>
+    </section>
+
+    <div class="layout">
+      <!-- Selve spillet -->
+      <section class="arena" aria-label="Frugtskæringsspil">
+        <div class="hud">
+          <div>
+            <span class="label" id="roundLabel">
+              1. ADVENT
+            </span>
+
+            <strong id="score">000</strong>
+            <small>POINT FOR SJOV</small>
+          </div>
+
+          <div class="timer">
+            <span id="time">25</span>
+            <small>SEKUNDER</small>
+          </div>
+
+          <button
+            id="pause"
+            hidden
+            aria-label="Sæt spillet på pause"
+          >
+            Ⅱ
+          </button>
+        </div>
+
+        <div class="arena-title">
+          A LITTLE SLICE<br>
+          OF <em>CHRISTMAS.</em>
+        </div>
+
+        <canvas
+          id="game"
+          tabindex="0"
+          aria-label="Skær frugter ved at trække fingeren eller musen. Med tastatur: tryk mellemrum for at skære en frugt."
+        ></canvas>
+
+        <!-- Start-, pause- og resultatskærm -->
+        <div class="overlay" id="overlay">
+          <div class="tag" id="overlayTag">
+            DIT ADVENTSØJEBLIK
+          </div>
+
+          <h2 id="overlayTitle">
+            KLAR TIL<br>
+            ET JULESWIPE?
+          </h2>
+
+          <p id="overlayText">
+            Hold musen nede eller stryg med fingeren.<br>
+            Skær frugterne, og nyd de næste 25 sekunder.
+          </p>
+
+          <button class="primary" id="start">
+            SPIL 1. ADVENT
+            <span>↗</span>
+          </button>
+
+          <p class="fine" id="overlayFine">
+            Ingen bomber. Ingen liv. Din deltagelse tæller.
+          </p>
+        </div>
+
+        <div class="game-footer">
+          <span>✦ FRISK SMAG. GOD JULEENERGI.</span>
+          <span>SWIPE / TRÆK / MELLEMRUM</span>
+        </div>
+      </section>
+
+      <!-- Adventsfremgang -->
+      <aside>
+        <div class="progress-card">
+          <div class="card-top">
+            <span>DIN ADVENTSREJSE</span>
+            <span id="count">0 / 4</span>
+          </div>
+
+          <h2>
+            FIRE SMÅ PAUSER.<br>
+            <em>ÉN STOR SMAG.</em>
+          </h2>
+
+          <div id="days" class="days"></div>
+
+          <p id="progressText">
+            Gennemfør en runde hver adventssøndag,
+            og få én gratis juledrink efter alle fire.
+          </p>
+
+          <button
+            class="voucher-btn"
+            id="voucher"
+            hidden
+          >
+            SE DIN DEMOVOUCHER ↗
+          </button>
+
+          <div class="demo-note">
+            <b>DU SPILLER EN PROTOTYPE</b><br>
+            Alle fire adventsrunder kan prøves nu.<br>
+            Intet login og ingen rigtig præmie.
+          </div>
+        </div>
+
+        <div class="product">
+          <div class="product-art"></div>
+
+          <div class="product-copy">
+            <span>MEET YOUR HOLIDAY CRUSH</span>
+
+            <h3>
+              MERRY<br>
+              BERRY BOOST
+            </h3>
+
+            <p>
+              Bær, citrus, æble og et strejf af ingefær.
+            </p>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <div class="bottom">
+      <span>SKÆR. SMIL. GENTAG NÆSTE ADVENT.</span>
+
+      <button id="reset">
+        Nulstil min demo
+      </button>
+    </div>
+  </main>
+
+  <footer>
+    <span>
+      STUDIEKONCEPT · IKKE EN OFFICIEL JOE-KAMPAGNE
+    </span>
+
+    <span>
+      Fremgang gemmes kun i denne browser.
+    </span>
+  </footer>
+
+  <!-- Dialog til regler, voucher og nulstilling -->
+  <dialog id="modal">
+    <button class="close" aria-label="Luk">
+      ×
+    </button>
+
+    <div id="modalContent"></div>
+  </dialog>
+
+  <div
+    class="sr"
+    aria-live="polite"
+    id="announce"
+  ></div>
+
+  <script src="JS/game.js"></script>
+</body>
+</html>
