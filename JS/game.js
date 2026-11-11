@@ -12,6 +12,21 @@ const $ = (selector) => document.querySelector(selector);
 const canvas = $("#game");
 const ctx = canvas.getContext("2d");
 
+// SLICE-LYD
+const sliceSound = new Audio("sound/slice_the_secret_fruit_slice.wav");
+
+function playSliceSound() {
+  sliceSound.currentTime = 0;
+  sliceSound.play();
+}
+
+// BOMBE-LYD
+const bombSound = new Audio("sound/slice_the_secret_bomb_hit.wav");
+
+// JULE-COUNTDOWN
+const countdownSound = new Audio("sound/slice_the_secret_christmas_countdown_3_2_1.wav");
+
+
 /* =========================================
    BILLEDER OG INGREDIENSER
 ========================================= */
@@ -407,7 +422,61 @@ function start() {
   canvas.focus();
 }
 
-$("#start").onclick = start;
+let countdownRunning = false;
+
+$("#start").onclick = () => {
+
+  // Hvis spillet er på pause
+  if (action === "resume") {
+    start();
+    return;
+  }
+
+  // Undgå at starte flere countowns
+  if (countdownRunning) return;
+
+  countdownRunning = true;
+
+  const countdown = $("#countdown");
+  const number = $("#countdownNumber");
+
+  // Skjul startskærmen under countdown
+  $("#overlay").hidden = true;
+
+  countdown.hidden = false;
+
+  countdownSound.currentTime = 0;
+  countdownSound.play();
+
+  const steps = ["3", "2", "1", "SLICE!"];
+  let index = 0;
+
+  function showNumber() {
+    number.textContent = steps[index];
+
+    // Genstart animationen
+    number.style.animation = "none";
+    void number.offsetWidth;
+    number.style.animation = "countdownPop 0.8s ease-out";
+  }
+
+  showNumber();
+
+  const interval = setInterval(() => {
+    index++;
+
+    if (index < steps.length) {
+      showNumber();
+    } else {
+      clearInterval(interval);
+
+      countdown.hidden = true;
+      countdownRunning = false;
+
+      start();
+    }
+  }, 1000);
+};
 
 /* =========================================
    PAUSE
@@ -655,10 +724,13 @@ function slice(f) {
 
   f.cut = true;
 
-  /* RAMT JULEKUGLE */
+/* RAMT JULEKUGLE */
 
-  if (f.isBomb) {
-    score = Math.max(0, score + POINTS_BOMB);
+if (f.isBomb) {
+  bombSound.currentTime = 0;
+  bombSound.play();
+
+  score = Math.max(0, score + POINTS_BOMB);
 
     updateScore();
 
@@ -699,6 +771,12 @@ function slice(f) {
   }
 
   /* RAMT FRUGT */
+playSliceSound();
+
+function playBombSound() {
+  bombSound.currentTime = 0;
+  bombSound.play();
+}
 
   combo = comboTime > 0 ? combo + 1 : 1;
   comboTime = 0.4;
