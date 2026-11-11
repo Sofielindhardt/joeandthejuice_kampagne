@@ -23,10 +23,7 @@ function playSliceSound() {
 // BOMBE-LYD
 const bombSound = new Audio("sound/slice_the_secret_bomb_hit.wav");
 
-// JULE-COUNTDOWN
-const countdownSound = new Audio(
-  "sound/slice_the_secret_christmas_countdown_3_2_1.wav",
-);
+
 
 /* =========================================
    BILLEDER OG INGREDIENSER
@@ -1096,3 +1093,10 @@ function frame(timestamp) {
 /* START ANIMATIONSLOOP */
 
 requestAnimationFrame(frame);
+
+// AFSPIL LYD VED KNAPKLIK
+document.addEventListener("click", (event) => {
+  if (event.target.closest("button")) {
+    playButtonSound();
+  }
+});
