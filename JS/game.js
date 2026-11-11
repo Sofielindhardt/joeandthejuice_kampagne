@@ -23,7 +23,16 @@ function playSliceSound() {
 // BOMBE-LYD
 const bombSound = new Audio("sound/slice_the_secret_bomb_hit.wav");
 
+// JULE-COUNTDOWN
+const countdownSound = new Audio("sound/slice_the_secret_christmas_countdown_3_2_1.wav");
 
+// KNAPLYD 🎄
+const buttonSound = new Audio("sound/slice_the_secret_button_click.wav");
+
+function playButtonSound() {
+  buttonSound.currentTime = 0;
+  buttonSound.play();
+}
 
 /* =========================================
    BILLEDER OG INGREDIENSER
