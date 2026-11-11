@@ -3,10 +3,10 @@
 /* FARVER */
 
 :root {
-  --pink: #F7C1D9;
+  --pink: #f5bdd3;
   --red: #941333;
-  --ink: #1E1E1C;
-  --cream: #ffffff;
+  --ink: #191719;
+  --cream: #faf2ed;
 }
 
 /* GRUNDLÆGGENDE STYLING */
@@ -19,7 +19,7 @@ body {
   margin: 0;
   background: var(--cream);
   color: var(--ink);
-  font-family: "Roboto flex", Arial, sans-serif;
+  font-family: "DM Sans", Arial, sans-serif;
 }
 
 button,
@@ -1147,5 +1147,82 @@ dialog .close {
     font-size: 24px;
   }
 }
+/* JULE-COUNTDOWN */
 
+.arena {
+  position: relative;
+}
+
+#countdown {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(30, 10, 20, 0.65);
+  pointer-events: none;
+}
+
+#countdown[hidden] {
+  display: none;
+}
+
+/* JULE-COUNTDOWN */
+
+.arena {
+  position: relative;
+}
+
+#countdown {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(30, 10, 20, 0.65);
+  pointer-events: none;
+}
+
+#countdown[hidden] {
+  display: none;
+}
+
+
+
+#countdownNumber {
+  font-family: inherit;
+  font-size: clamp(100px, 18vw, 190px);
+  font-weight: 1000;
+  font-style: italic;
+  letter-spacing: -5px;
+
+  color: #f6b8d5;
+  text-shadow: 5px 7px 0 #9e486b;
+
+  transform: skew(-8deg);
+  animation: countdownPop 0.8s ease-out;
+}
+
+@keyframes countdownPop {
+  0% {
+    transform: skew(-8deg) scale(1.6);
+    opacity: 0;
+  }
+
+  30% {
+    transform: skew(-8deg) scale(1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: skew(-8deg) scale(0.9);
+    opacity: 1;
+  }
+}
 

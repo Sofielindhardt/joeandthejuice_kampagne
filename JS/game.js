@@ -24,8 +24,9 @@ function playSliceSound() {
 const bombSound = new Audio("sound/slice_the_secret_bomb_hit.wav");
 
 // JULE-COUNTDOWN
-const countdownSound = new Audio("sound/slice_the_secret_christmas_countdown_3_2_1.wav");
-
+const countdownSound = new Audio(
+  "sound/slice_the_secret_christmas_countdown_3_2_1.wav",
+);
 
 /* =========================================
    BILLEDER OG INGREDIENSER
@@ -425,7 +426,6 @@ function start() {
 let countdownRunning = false;
 
 $("#start").onclick = () => {
-
   // Hvis spillet er på pause
   if (action === "resume") {
     start();
@@ -626,7 +626,6 @@ function makeFruit() {
   });
 }
 
-
 /* =========================================
    TEGN FRUGTER OG BLINKENDE JULEKUGLER
 ========================================= */
@@ -634,11 +633,7 @@ function makeFruit() {
 function fruit(f) {
   const image = fruitImages[f.type];
 
-  if (
-    !image ||
-    !image.complete ||
-    !image.naturalWidth
-  ) {
+  if (!image || !image.complete || !image.naturalWidth) {
     return;
   }
 
@@ -664,7 +659,6 @@ function fruit(f) {
 
     // Let variation i gennemsigtighed
     ctx.globalAlpha = 0.85 + blink * 0.15;
-
   } else {
     /* ALMINDELIGE FRUGTER */
 
@@ -695,7 +689,7 @@ function fruit(f) {
 
   const scale = Math.min(
     maxSize / image.naturalWidth,
-    maxSize / image.naturalHeight
+    maxSize / image.naturalHeight,
   );
 
   const width = image.naturalWidth * scale;
@@ -703,17 +697,10 @@ function fruit(f) {
 
   /* TEGN BILLEDET */
 
-  ctx.drawImage(
-    image,
-    -width / 2,
-    -height / 2,
-    width,
-    height
-  );
+  ctx.drawImage(image, -width / 2, -height / 2, width, height);
 
   ctx.restore();
 }
-
 
 /* =========================================
    RAM EN FRUGT ELLER JULEKUGLE
@@ -724,13 +711,13 @@ function slice(f) {
 
   f.cut = true;
 
-/* RAMT JULEKUGLE */
+  /* RAMT JULEKUGLE */
 
-if (f.isBomb) {
-  bombSound.currentTime = 0;
-  bombSound.play();
+  if (f.isBomb) {
+    bombSound.currentTime = 0;
+    bombSound.play();
 
-  score = Math.max(0, score + POINTS_BOMB);
+    score = Math.max(0, score + POINTS_BOMB);
 
     updateScore();
 
@@ -771,12 +758,12 @@ if (f.isBomb) {
   }
 
   /* RAMT FRUGT */
-playSliceSound();
+  playSliceSound();
 
-function playBombSound() {
-  bombSound.currentTime = 0;
-  bombSound.play();
-}
+  function playBombSound() {
+    bombSound.currentTime = 0;
+    bombSound.play();
+  }
 
   combo = comboTime > 0 ? combo + 1 : 1;
   comboTime = 0.4;
