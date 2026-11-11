@@ -78,7 +78,7 @@ const palette = [
 const POINTS_FRUIT = 10;
 const POINTS_BOMB = -20;
 
-const GAME_DURATION = 25;
+const GAME_DURATION = 20;
 
 // Sandsynlighed for at en julekugle dukker op
 const BOMB_CHANCE = 0.15;
@@ -169,27 +169,61 @@ function updateScore() {
 function updateProgress() {
   $("#count").textContent = completed + " / 4";
 
+  const checkIcon = `
+    <svg
+      class="advent-check"
+      viewBox="0 0 100 80"
+      fill="none"
+      aria-hidden="true"
+    >
+      <path d="M10 41 L36 67 L90 13" />
+    </svg>
+  `;
+
+  const lockIcon = `
+    <svg
+      class="advent-lock"
+      viewBox="0 0 48 56"
+      fill="none"
+      aria-hidden="true"
+    >
+      <path d="M13 24V15a11 11 0 0 1 22 0v9" />
+      <rect x="7" y="24" width="34" height="27" rx="3" />
+      <path d="M24 35v7" />
+    </svg>
+  `;
+
   $("#days").innerHTML = Array.from({ length: 4 }, (_, i) => {
-    const status = i < completed ? "done" : i === completed ? "current" : "";
+    const done = i < completed;
+    const current = i === completed;
+
+    const status = done ? "done" : current ? "current" : "locked";
+    const symbol = done ? checkIcon : current ? i + 1 : lockIcon;
+
+    const description = done
+      ? "Gennemført"
+      : current
+        ? "Klar til at spille"
+        : "Låst";
 
     return `
-        <div class="day ${status}">
-          <b>${i < completed ? "✓" : i + 1}</b>
-          <small>${i + 1}. ADVENT</small>
-        </div>
-      `;
+      <div
+        class="day ${status}"
+        role="img"
+        aria-label="${i + 1}. advent: ${description}"
+      >
+        <b aria-hidden="true">${symbol}</b>
+        <small aria-hidden="true">${i + 1}. ADVENT</small>
+      </div>
+    `;
   }).join("");
 
   $("#voucher").hidden = completed < 4;
 
-  if (completed === 4) {
-    $("#progressText").textContent =
-      "Alle fire adventsrunder er gennemført. " + "Din demovoucher er klar!";
-  } else {
-    $("#progressText").textContent =
-      "Gennemfør en runde hver adventssøndag, " +
-      "og få én gratis juledrink efter alle fire.";
-  }
+  $("#progressText").textContent =
+    completed === 4
+      ? "Alle fire adventsrunder er gennemført. Din voucher er klar!"
+      : "Gennemfør alle 4 søndage og vind en voucher til vores Merry Berry Boost GRATIS.";
 }
 
 function initial() {
@@ -286,38 +320,82 @@ function voucher() {
   if (completed < 4) return;
 
   showModal(`
-    <div class="eyebrow">
-      4 AF 4 · GENNEMFØRT
-    </div>
+    <article class="christmas-voucher">
+      <div class="christmas-voucher-top">
+        <img
+          class="christmas-voucher-image"
+          src="img/merryberryboost.png"
+          alt="Merry Berry Boost juledrink"
+        >
 
-    <h2>
-      FRA JULESWIPE<br>
-      TIL JULESMAG.
-    </h2>
+        <div class="christmas-voucher-copy">
+          <h2>MERRY BERRY<br>BOOST</h2>
 
-    <div class="ticket">
-      <span>
-        DEMO · IKKE GYLDIG I BUTIK
-      </span>
 
-      <strong>
-        ÉN GRATIS<br>
-        MERRY BERRY BOOST
-      </strong>
+          <hr>
 
-      <p>
-        Din adventsrejse er gennemført.
-      </p>
-    </div>
+          <p class="christmas-voucher-details">
+            Gyldig til og med d.31 december 2026.
+          </p>
+        </div>
+      </div>
 
-    <p>
-      I den færdige kampagne skal voucheren
-      være tilgængelig i Joe & The Juice-appen.
+      <button
+        type="button"
+        class="christmas-wallet-button"
+        id="addVoucherToWallet"
+      >
+        <span>TILFØJ I WALLET</span>
+        <span aria-hidden="true">↗</span>
+      </button>
 
-      Denne prototype udsteder
-      ingen rigtig voucher.
-    </p>
+      <p
+        class="christmas-wallet-status"
+        id="walletStatus"
+        role="status"
+      >
+    
+    </article>
   `);
+
+  const walletButton = $("#addVoucherToWallet");
+  const walletStatus = $("#walletStatus");
+
+  function showSavedVoucher() {
+    walletButton.disabled = true;
+
+    walletButton.innerHTML = `
+  <span>TILFØJET I WALLET</span>
+
+  
+`;
+    walletStatus.textContent =
+      "";
+  }
+
+  try {
+    if (localStorage.getItem("joe-christmas-voucher-demo") === "saved") {
+      showSavedVoucher();
+    }
+  } catch {
+    // Knappen kan stadig bruges uden localStorage
+  }
+
+  walletButton.onclick = () => {
+    try {
+      localStorage.setItem("joe-christmas-voucher-demo", "saved");
+      showSavedVoucher();
+  
+      // Luk voucherboksen efter gemning
+      $("#modal").close();
+  
+      // Flyt fokus tilbage til voucherknappen på siden
+      $("#voucher").focus({ preventScroll: true });
+    } catch {
+      walletStatus.textContent =
+        "Browseren kunne ikke gemme demovoucheren. Prøv igen.";
+    }
+  };
 }
 
 $("#voucher").onclick = voucher;
@@ -344,8 +422,13 @@ $("#reset").onclick = () => {
     paused = false;
     completed = 0;
 
+    savedDeals = {};
+    activeDealRound = null;
+
     try {
       localStorage.removeItem(KEY);
+      localStorage.removeItem(DEALS_KEY);
+      localStorage.removeItem("joe-christmas-voucher-demo");
     } catch {
       // Fortsæt uden localStorage
     }
@@ -430,38 +513,79 @@ function start() {
   canvas.focus();
 }
 
-let countdownRunning = false;
+/* =========================================
+   REGLER → COUNTDOWN → SPIL
+========================================= */
 
+let countdownRunning = false;
+let countdownInterval = null;
+
+const rulesDialog = $("#rulesDialog");
+const rulesStart = $("#rulesStart");
+const closeRules = $("#closeRules");
+
+/* Den oprindelige spilknap åbner reglerne */
 $("#start").onclick = () => {
-  // Hvis spillet er på pause
+  // Fortsæt et pauset spil uden regler og countdown
   if (action === "resume") {
     start();
     return;
   }
 
-  // Undgå at starte flere countowns
-  if (countdownRunning) return;
+  if (playing || countdownRunning || rulesDialog.open) {
+    return;
+  }
+
+  rulesDialog.showModal();
+
+  // Fokus på overskriften, så kortet starter øverst
+  $("#rulesTitle").focus();
+};
+
+/* Luk reglerne uden at starte noget */
+closeRules.onclick = () => {
+  rulesDialog.close();
+};
+
+/* Start først countdown, når brugeren bekræfter */
+rulesStart.onclick = () => {
+  if (countdownRunning || playing) return;
+
+  rulesDialog.close();
+  beginCountdown();
+};
+
+function beginCountdown() {
+  if (countdownRunning || playing) return;
 
   countdownRunning = true;
 
   const countdown = $("#countdown");
   const number = $("#countdownNumber");
+  const steps = ["3", "2", "1", "SLICE!"];
 
-  // Skjul startskærmen under countdown
+  let index = 0;
+
+  // Skjul startskærmen. Selve spillet er ikke startet endnu.
   $("#overlay").hidden = true;
-
   countdown.hidden = false;
 
-  countdownSound.currentTime = 0;
-  countdownSound.play();
+  // Undgå nulstilling eller andre dialoger under countdown
+  $("#reset").disabled = true;
+  $("#voucher").disabled = true;
 
-  const steps = ["3", "2", "1", "SLICE!"];
-  let index = 0;
+  if ($("#rulesBtn")) {
+    $("#rulesBtn").disabled = true;
+  }
+
+  countdownSound.currentTime = 0;
+
+  // Countdown virker også, hvis browseren blokerer lyden
+  countdownSound.play().catch(() => {});
 
   function showNumber() {
     number.textContent = steps[index];
 
-    // Genstart animationen
     number.style.animation = "none";
     void number.offsetWidth;
     number.style.animation = "countdownPop 0.8s ease-out";
@@ -469,21 +593,47 @@ $("#start").onclick = () => {
 
   showNumber();
 
-  const interval = setInterval(() => {
+  countdownInterval = window.setInterval(() => {
     index++;
 
     if (index < steps.length) {
       showNumber();
-    } else {
-      clearInterval(interval);
-
-      countdown.hidden = true;
-      countdownRunning = false;
-
-      start();
+      return;
     }
+
+    clearCountdown();
+
+    // Først nu starter spillet og dets 20 sekunder
+    start();
   }, 1000);
-};
+}
+
+function clearCountdown() {
+  window.clearInterval(countdownInterval);
+
+  countdownInterval = null;
+  countdownRunning = false;
+
+  $("#countdown").hidden = true;
+
+  countdownSound.pause();
+  countdownSound.currentTime = 0;
+
+  $("#reset").disabled = false;
+  $("#voucher").disabled = false;
+
+  if ($("#rulesBtn")) {
+    $("#rulesBtn").disabled = false;
+  }
+}
+
+/* Forlad fanen under countdown → gå tilbage til start */
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden && countdownRunning) {
+    clearCountdown();
+    $("#overlay").hidden = false;
+  }
+});
 
 /* =========================================
    PAUSE
@@ -531,10 +681,22 @@ document.addEventListener("visibilitychange", () => {
    AFSLUT RUNDE
 ========================================= */
 
-function finish() {
-  playing = false;
-  paused = false;
-  drag = false;
+  function finish() {
+    playing = false;
+    paused = false;
+    drag = false;
+  
+    // Fjern frugter, bomber, partikler og swipe-spor
+    fruits = [];
+    particles = [];
+    trail = [];
+    floats = [];
+    previous = null;
+  
+    // Ryd selve tegnefladen
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  
+    canvas.classList.remove("is-playing");
 
   const wasDone = completed === 4;
 
@@ -589,6 +751,12 @@ function finish() {
 
   $("#announce").textContent =
     `Runde gennemført med ${score} point. ` + `${completed} af 4 adventsdage.`;
+
+    // Ét tilbud for hver af de fire adventsrunder
+if (!wasDone) {
+  openDeals(completed);
+}
+
 }
 
 /* =========================================
@@ -607,8 +775,25 @@ function makeFruit() {
     // Vælg mellem de to julekugler
     type = Math.random() < 0.5 ? 5 : 6;
   } else {
-    // Vælg mellem fem ingredienser
-    type = Math.floor(Math.random() * 5);
+    // Tallene henviser til billederne i imagePaths:
+    // 0 = appelsin
+    // 1 = hindbær
+    // 2 = tranebær
+    // 3 = æble
+    // 4 = ingefær
+  
+    const adventIngredients = [
+      [1, 2],          // 1. advent: hindbær og tranebær
+      [1, 2, 0],       // 2. advent: + appelsin
+      [1, 2, 0, 3],    // 3. advent: + æble
+      [1, 2, 0, 3, 4]  // 4. advent: + ingefær
+    ];
+  
+    const available = adventIngredients[round - 1];
+  
+    type = available[
+      Math.floor(Math.random() * available.length)
+    ];
   }
 
   fruits.push({
@@ -721,6 +906,8 @@ function slice(f) {
   /* RAMT JULEKUGLE */
 
   if (f.isBomb) {
+    shakeGame();
+  
     bombSound.currentTime = 0;
     bombSound.play();
 
@@ -1110,3 +1297,305 @@ document.addEventListener("click", (event) => {
     playButtonSound();
   }
 });
+
+
+/* SNE I BAGGRUNDEN */
+(() => {
+  const container = document.getElementById("snowfall");
+  if (!container) return;
+
+  container.replaceChildren();
+
+  const amount = window.innerWidth < 600 ? 25 : 45;
+  const fragment = document.createDocumentFragment();
+
+  for (let i = 0; i < amount; i++) {
+    const flake = document.createElement("span");
+    flake.className = "snowflake";
+
+    const duration = 18 + Math.random() * 14;
+
+    flake.style.setProperty("--snow-left", `${Math.random() * 100}%`);
+    flake.style.setProperty("--snow-size", `${4 + Math.random() * 5}px`);
+    flake.style.setProperty("--snow-duration", `${duration}s`);
+
+    // Sneen er allerede fordelt på skærmen ved indlæsning
+    flake.style.setProperty(
+      "--snow-delay",
+      `${-Math.random() * duration}s`
+    );
+
+    flake.style.setProperty(
+      "--snow-drift",
+      `${Math.random() * 80 - 40}px`
+    );
+
+    fragment.appendChild(flake);
+  }
+
+  container.appendChild(fragment);
+})();
+
+/* =========================================
+   TILBUD EFTER HVER ADVENTSRUNDE
+========================================= */
+
+const DEALS_KEY = "joe-advent-deals-demo-v1";
+
+/* Forslag til produkter og demopriser */
+const dealProducts = {
+  storm: {
+    name: "Iced Sesame Storm",
+    description: "En kold kaffepause.",
+    image: "img/stormlatte.png",
+    price: 60
+  },
+
+  avocado: {
+    name: "Avocado",
+    description: "En sandwich til din pause.",
+    image: "img/avocado.png",
+    price: 81
+  },
+
+  carrot: {
+    name: "Carrot Cake",
+    description: "Noget sødt til kaffen.",
+    image: "img/carrotcake.png",
+    price: 40
+  },
+
+  feelgood: {
+    name: "Feel Good",
+    description: "En frisk pause i december.",
+    image: "img/feelgood.png",
+    price: 65
+  },
+
+  muscle: {
+    name: "Muscle Up",
+    description: "Prøv noget andet næste gang.",
+    image: "img/muscleup.png",
+    price: 70
+  },
+
+  latte: {
+    name: "Iced Latte",
+    description: "Din kaffepause på is.",
+    image: "img/icedlatte.png",
+    price: 55
+  },
+
+  matcha: {
+    name: "Iced Matcha",
+    description: "En grøn pause på is.",
+    image: "img/icedmatcha.png",
+    price: 60
+  }
+};
+
+/* Tre forskellige valgmuligheder i hver runde */
+const adventDeals = [
+  ["storm", "avocado", "carrot"],
+  ["feelgood", "latte", "matcha"],
+  ["muscle", "avocado", "carrot"],
+  ["matcha", "storm", "feelgood"]
+];
+
+const dealsDialog = document.getElementById("dealsDialog");
+const dealsForm = document.getElementById("dealsForm");
+const dealCards = document.getElementById("dealCards");
+const confirmDeal = document.getElementById("confirmDeal");
+
+let activeDealRound = null;
+
+function formatDealPrice(price) {
+  return price.toLocaleString("da-DK", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  }) + " kr.";
+}
+
+/* Hent tidligere valg fra denne browser */
+function readSavedDeals() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(DEALS_KEY));
+
+    if (saved && typeof saved === "object" && !Array.isArray(saved)) {
+      return saved;
+    }
+  } catch {
+    // Fortsæt, selvom lagring ikke er tilgængelig
+  }
+
+  return {};
+}
+
+let savedDeals = readSavedDeals();
+
+function openDeals(roundNumber) {
+  const choices = adventDeals[roundNumber - 1];
+
+  if (!choices || savedDeals[roundNumber]) return;
+
+  activeDealRound = roundNumber;
+  confirmDeal.disabled = true;
+
+  document.getElementById("dealStatus").textContent = "";
+
+  dealCards.innerHTML = choices.map((productId) => {
+    const product = dealProducts[productId];
+    const discountPrice = product.price * 0.8;
+
+    return `
+      <label class="deal-option">
+        <input
+          class="deal-radio"
+          type="radio"
+          name="adventDeal"
+          value="${productId}"
+          required
+        >
+
+        <span class="deal-card">
+          <img
+            class="deal-image"
+            src="${product.image}"
+            alt=""
+          >
+
+          <span class="deal-copy">
+            <span class="deal-name">
+              ${product.name}
+            </span>
+
+            <span class="deal-description">
+              ${product.description}
+            </span>
+
+            <span class="deal-prices">
+              <del>
+                <span class="sr">Demopris før rabat: </span>
+                ${formatDealPrice(product.price)}
+              </del>
+
+              <strong>
+                <span class="sr">Demopris med 20 procent rabat: </span>
+                ${formatDealPrice(discountPrice)}
+              </strong>
+            </span>
+
+            <span class="deal-selected" aria-hidden="true">
+              ✓ DIT VALG
+            </span>
+          </span>
+        </span>
+      </label>
+    `;
+  }).join("");
+
+  if (!dealsDialog.open) {
+    dealsDialog.showModal();
+  }
+
+  document.getElementById("dealsTitle").focus();
+}
+
+/* Samme radio-navn betyder, at kun ét tilbud kan vælges */
+dealsForm.addEventListener("change", () => {
+  const selected = dealsForm.querySelector(
+    'input[name="adventDeal"]:checked'
+  );
+
+  confirmDeal.disabled = !selected;
+});
+
+/* Gem først, når brugeren trykker FORTSÆT */
+dealsForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+
+  const selected = dealsForm.querySelector(
+    'input[name="adventDeal"]:checked'
+  );
+
+  if (!selected || activeDealRound === null) return;
+
+  const productId = selected.value;
+  const choices = adventDeals[activeDealRound - 1];
+
+  if (!choices.includes(productId)) return;
+
+  const product = dealProducts[productId];
+
+  savedDeals[activeDealRound] = {
+    productId,
+    name: product.name,
+    discountPercent: 20,
+    price: Math.round(product.price * 0.8 * 100) / 100
+  };
+
+  let stored = true;
+
+  try {
+    localStorage.setItem(DEALS_KEY, JSON.stringify(savedDeals));
+  } catch {
+    stored = false;
+  }
+
+  activeDealRound = null;
+  dealsDialog.close();
+
+  document.getElementById("overlayText").textContent =
+    `Du har valgt 20 % rabat på ${product.name}. ` +
+    (stored
+      ? "Dit demotilbud er gemt i denne browser."
+      : "Dit demotilbud er gemt, indtil siden genindlæses.");
+
+  document.getElementById("announce").textContent =
+    `Du har valgt tilbuddet på ${product.name}.`;
+
+  document.getElementById("start").focus({ preventScroll: true });
+});
+
+/* Valget skal afsluttes med FORTSÆT */
+dealsDialog.addEventListener("cancel", (event) => {
+  event.preventDefault();
+
+  document.getElementById("dealStatus").textContent =
+    "Vælg ét tilbud og tryk fortsæt.";
+});
+
+/* KORT RYSTELSE, NÅR MAN RAMMER EN BOMBE */
+let bombShakeAnimation = null;
+
+function shakeGame() {
+  // Respektér indstillingen for mindre bevægelse
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    return;
+  }
+
+  const arena = document.querySelector(".arena");
+
+  if (!arena) return;
+
+  // Undgå at flere rystelser lægges oven i hinanden
+  if (bombShakeAnimation) {
+    bombShakeAnimation.cancel();
+  }
+
+  bombShakeAnimation = arena.animate(
+    [
+      { transform: "translate(0, 0)" },
+      { transform: "translate(-6px, 2px)" },
+      { transform: "translate(6px, -2px)" },
+      { transform: "translate(-4px, -1px)" },
+      { transform: "translate(4px, 1px)" },
+      { transform: "translate(-2px, 0)" },
+      { transform: "translate(0, 0)" }
+    ],
+    {
+      duration: 300,
+      easing: "ease-out"
+    }
+  );
+}

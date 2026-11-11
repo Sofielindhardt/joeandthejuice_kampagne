@@ -913,9 +913,9 @@ dialog .close {
   body {
     width: 100%;
     max-width: 100%;
-    overflow-x: hidden;
+    overflow-x: clip;
+    overflow-y: visible;
   }
-
   body {
     font-size: 14px;
   }
@@ -1960,3 +1960,1058 @@ header #rulesBtn {
   }
 }
 
+/* SPILLEREGLER */
+#rulesDialog,
+#rulesDialog * {
+  box-sizing: border-box;
+}
+
+#rulesDialog {
+  position: fixed;
+  inset: 0;
+
+  width: min(1100px, calc(100% - 32px));
+  max-width: none;
+  max-height: 92vh;
+  max-height: 92dvh;
+
+  margin: auto;
+  padding: 56px 52px 64px;
+
+  overflow-y: auto;
+
+  border: none;
+  border-radius: 46px;
+
+  background: #ffffff;
+  color: #20201e;
+}
+
+#rulesDialog:not([open]) {
+  display: none;
+}
+
+#rulesDialog::backdrop {
+  background: rgb(0 0 0 / 45%);
+}
+
+/* LILLE LUKKEKNAP */
+#rulesDialog .rules-close {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+
+  display: grid;
+  place-items: center;
+
+  width: 44px;
+  height: 44px;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  box-shadow: none;
+
+  color: #20201e;
+  font: 28px/1 Arial, sans-serif;
+  cursor: pointer;
+}
+
+/* OVERSKRIFT */
+#rulesDialog #rulesTitle {
+  margin: 0 0 32px;
+
+  font-family: inherit;
+  font-size: clamp(34px, 5vw, 60px);
+  font-weight: 900;
+  font-style: italic;
+  line-height: 1;
+  letter-spacing: -1.5px;
+  text-transform: uppercase;
+
+  color: #20201e;
+}
+
+/* TEKST TIL VENSTRE, BILLEDER TIL HØJRE */
+#rulesDialog .rules-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 230px;
+  align-items: center;
+  gap: 50px;
+}
+
+/* REGLER */
+#rulesDialog .rules-list {
+  margin: 0;
+  padding: 0 60px 0 34px;
+
+  font-family: Arial, sans-serif;
+  font-size: clamp(18px, 2.4vw, 27px);
+  font-weight: 400;
+  line-height: 1.32;
+}
+
+#rulesDialog .rules-list li {
+  margin: 0;
+  padding: 0;
+}
+
+#rulesDialog .rules-list strong {
+  font-weight: 700;
+}
+
+/* DE TO ROSA BILLEDFELTER */
+#rulesDialog .rules-pictures {
+  display: grid;
+  gap: 32px;
+  
+}
+
+#rulesDialog .rules-picture {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  aspect-ratio: 1.2;
+  padding: 30px;
+
+  border-radius: 46px;
+  background: #f7c1d9;
+}
+
+/* TYNDE HVIDE SYMBOLER */
+#rulesDialog .rules-mark {
+  display: block;
+  flex-shrink: 0;
+  width: 90px;
+  height: 72px;
+
+  stroke: #ffffff;
+  stroke-width: 10.5;
+  stroke-linejoin: miter;
+}
+
+#rulesDialog .rules-check {
+  stroke-linecap: square;
+}
+
+#rulesDialog .rules-cross {
+  stroke-linecap: round;
+}
+
+/* FRUGTER OG BOMBER */
+#rulesDialog .rules-images {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  width: 100%;
+}
+
+#rulesDialog .rules-images img {
+  display: block;
+
+  width: 78px;
+  height: 82px;
+  max-width: 46%;
+
+  object-fit: contain;
+}
+
+/* CENTRERET KNAP MED LUFT I SIDERNE */
+#rulesDialog .rules-start {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+
+  width: 56%;
+  max-width: 300px;
+  min-height: 118px;
+
+  margin: 150px auto 12px;
+  padding: 22px 26px;
+
+  border: none;
+  border-radius: 9px;
+
+  background: #f7c1d9;
+  color: #20201e;
+  box-shadow: 0 11px 0 #941333;
+
+  font-family: inherit;
+  font-size: clamp(30px, 4.8vw, 60px);
+  font-weight: 900;
+  font-style: italic;
+  line-height: 1;
+  text-align: left;
+  white-space: nowrap;
+
+  cursor: pointer;
+}
+
+#rulesDialog .rules-arrow {
+  display: block;
+  flex-shrink: 0;
+
+  width: 68px;
+  height: 60px;
+}
+
+#rulesDialog .rules-arrow path:first-child {
+  stroke: currentColor;
+  stroke-width: 3;
+}
+
+#rulesDialog .rules-arrow path:last-child {
+  fill: currentColor;
+}
+
+#rulesDialog .rules-start:active {
+  transform: translateY(4px);
+  box-shadow: 0 7px 0 #941333;
+}
+
+#rulesDialog button:focus-visible {
+  outline: 3px solid #941333;
+  outline-offset: 5px;
+}
+
+/* TELEFON: BILLEDERNE BLIVER PÅ HØJRE SIDE */
+@media (max-width: 600px) {
+  #rulesDialog {
+    width: calc(100% - 20px);
+    padding: 52px 20px 32px;
+    border-radius: 28px;
+  }
+
+  #rulesDialog #rulesTitle {
+    margin-bottom: 28px;
+    font-size: clamp(27px, 7.2vw, 40px);
+    letter-spacing: -1px;
+  }
+
+  #rulesDialog .rules-layout {
+    grid-template-columns: minmax(0, 1fr) 88px;
+    gap: 12px;
+  }
+
+  #rulesDialog .rules-list {
+    padding-left: 21px;
+    font-size: 15px;
+    line-height: 1.4;
+  }
+
+  #rulesDialog .rules-list li + li {
+    margin-top: 8px;
+  }
+
+  #rulesDialog .rules-pictures {
+    gap: 18px;
+  }
+
+  #rulesDialog .rules-picture {
+    aspect-ratio: auto;
+    min-height: 106px;
+    padding: 10px 5px;
+    gap: 8px;
+    border-radius: 22px;
+  }
+
+  #rulesDialog .rules-mark {
+    width: 44px;
+    height: 35px;
+  }
+
+  #rulesDialog .rules-images {
+    gap: 2px;
+  }
+
+  #rulesDialog .rules-images img {
+    width: 36px;
+    height: 43px;
+  }
+
+  #rulesDialog .rules-start {
+    width: 86%;
+    min-height: 74px;
+    margin-top: 42px;
+    padding: 16px;
+    gap: 10px;
+    font-size: clamp(24px, 7vw, 34px);
+    box-shadow: 0 8px 0 #941333;
+  }
+
+  #rulesDialog .rules-arrow {
+    width: 38px;
+    height: 36px;
+  }
+}
+/* Overskrift med samme skrifttype og stil som h3 */
+#rulesDialog #rulesTitle {
+  font-family: "Barlow Condensed", Impact, sans-serif;
+  font-weight: 800;
+  font-style: italic;
+  font-size: clamp(34px, 5vw, 60px);
+  line-height: 0.95;
+  letter-spacing: normal;
+}
+
+/* Smallere tekstfelt og mere luft til billederne */
+#rulesDialog .rules-layout {
+  grid-template-columns: minmax(0, 1fr) 230px;
+  column-gap: 80px;
+}
+
+#rulesDialog .rules-list {
+  max-width: 550px;
+}
+
+/* Tilpasning til telefon */
+@media (max-width: 600px) {
+  #rulesDialog #rulesTitle {
+    font-size: clamp(28px, 7.2vw, 40px);
+  }
+
+  #rulesDialog .rules-layout {
+    grid-template-columns: minmax(0, 1fr) 88px;
+    column-gap: 22px;
+  }
+
+  #rulesDialog .rules-list {
+    max-width: 100%;
+  }
+}
+/* Flyt de pinke bokse til venstre */
+#rulesDialog .rules-pictures {
+  position: relative;
+  left: -25px;
+  transform: none;
+}
+
+@media (max-width: 600px) {
+  #rulesDialog .rules-pictures {
+    left: -20px;
+  }
+}
+
+#overlayFine {
+  margin: 20px 0 0;
+}
+
+/* Behold den diskrete baggrundstekst */
+.arena-title {
+  opacity: 0.055;
+}
+
+.arena-title h1 {
+  color: white;
+}
+
+/* Gør CHRISTMAS synlig uden en farvet kasse */
+.arena-title h1 em {
+  color: white;
+  background: transparent;
+}
+
+/* Samme tynde, hvide flueben som ved frugterne */
+.progress-card .day .advent-check {
+  display: block;
+  width: 44px;
+  height: 36px;
+
+  stroke: white;
+  stroke-width: 8.5;
+  stroke-linecap: square;
+  stroke-linejoin: miter;
+}
+
+/* Lås på kommende adventsdage */
+.progress-card .day .advent-lock {
+  display: block;
+  width: 30px;
+  height: 36px;
+
+  stroke: #9895a0;
+  stroke-width: 3.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.product-art {
+  width: 45%;
+  flex-shrink: 0;
+  background: none;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+}
+
+.product-art img {
+  display: block;
+  width: 100%;
+  height: 180px;
+  object-fit: contain;
+}
+
+.product-copy {
+  width: 55%;
+  min-width: 0;
+}
+
+/* JULENS EFFEKTER */
+body {
+  position: relative;
+  isolation: isolate;
+}
+
+/* SNE BAG SIDENS INDHOLD */
+.christmas-background {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+body > header,
+body > main,
+body > footer {
+  position: relative;
+  z-index: 1;
+}
+
+#snowfall {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.snowflake {
+  position: absolute;
+  top: -16px;
+  left: var(--snow-left);
+
+  width: var(--snow-size);
+  height: var(--snow-size);
+  border-radius: 50%;
+
+  /* Synlig på den hvide baggrund */
+  background: #dfa0ba;
+  opacity: 0.75;
+
+  animation: snowfall var(--snow-duration)
+    linear var(--snow-delay) infinite;
+}
+
+@keyframes snowfall {
+  from {
+    transform: translate3d(0, -16px, 0);
+  }
+
+  to {
+    transform: translate3d(var(--snow-drift), 105vh, 0);
+  }
+}
+
+/* GRAN: ØVERST PÅ SIDEN, FORAN HEADEREN */
+.pine-decoration {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 420px;
+  z-index: 5;
+
+  /* Klipper grenene uden at oprette et scrollområde */
+  overflow: clip;
+  pointer-events: none;
+}
+
+.pine-decoration .pine {
+  position: absolute;
+  top: -30px;
+  width: clamp(300px, 38vw, 560px);
+}
+
+.pine-decoration .pine-right {
+  right: -30px;
+}
+
+.pine-decoration .pine-left {
+  left: -30px;
+  transform: scaleX(-1);
+}
+
+.pine-decoration .pine img {
+  display: block;
+  width: 100%;
+  height: auto;
+
+  transform-origin: top right;
+  animation: pineSwayVisible 9s ease-in-out infinite;
+}
+
+.pine-decoration .pine-left img {
+  animation-delay: -4.5s;
+}
+
+/* Denne animation manglede før */
+@keyframes pineSwayVisible {
+  0%, 100% {
+    transform: rotate(-4deg);
+  }
+
+  50% {
+    transform: rotate(4deg);
+  }
+}
+
+/* TYDELIG PULS PÅ DEN AKTUELLE ADVENT */
+.progress-card .day.current {
+  animation: adventGlow 2.5s ease-in-out infinite;
+}
+
+@keyframes adventGlow {
+  0%, 100% {
+    box-shadow:
+      0 0 0 0 rgb(148 19 51 / 30%),
+      0 0 8px rgb(148 19 51 / 15%);
+  }
+
+  50% {
+    box-shadow:
+      0 0 0 5px rgb(148 19 51 / 18%),
+      0 0 24px rgb(148 19 51 / 45%);
+  }
+}
+
+/* Tillad scroll over spillet, når man ikke spiller */
+#game {
+  touch-action: pan-y;
+}
+
+/* Under spillet bruges fingeren til at skære */
+#game.is-playing {
+  touch-action: none;
+}
+
+@media (max-width: 600px) {
+  .pine-decoration {
+    height: 240px;
+  }
+
+  .pine-decoration .pine {
+    width: 250px;
+    top: -20px;
+  }
+
+  .pine-decoration .pine-left {
+    left: -65px;
+  }
+
+  .pine-decoration .pine-right {
+    right: -65px;
+  }
+}
+
+/* Mindre bevægelse, hvis brugeren har valgt det */
+@media (prefers-reduced-motion: reduce) {
+  .pine-decoration .pine img,
+  .progress-card .day.current {
+    animation: none;
+  }
+
+  .snowflake {
+    display: none;
+  }
+}
+
+/* Fjern sløring bag spillets startskærm */
+.arena .overlay {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+/* Lettere sne uden skygger og filtre */
+.snowflake {
+  box-shadow: none;
+  filter: none;
+}
+
+/* Puls med gennemsigtighed frem for animeret skygge */
+.progress-card .day.current {
+  position: relative;
+  animation: none;
+}
+
+.progress-card .day.current::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: inherit;
+  pointer-events: none;
+
+  box-shadow: 0 0 18px rgb(148 19 51 / 45%);
+  animation: adventLight 2.5s ease-in-out infinite;
+}
+
+@keyframes adventLight {
+  0%, 100% {
+    opacity: 0.15;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .progress-card .day.current::after {
+    animation: none;
+    opacity: 0.5;
+  }
+}
+
+/* TILBUDSVINDUE */
+#dealsDialog {
+  width: min(620px, calc(100% - 24px));
+  max-width: none;
+  max-height: 92vh;
+  max-height: 92dvh;
+
+  padding: 34px;
+  border: none;
+  border-radius: 20px;
+
+  background: white;
+  color: #1e1e1c;
+  overflow-y: auto;
+}
+
+#dealsDialog:not([open]) {
+  display: none;
+}
+
+#dealsDialog::backdrop {
+  background: rgb(30 20 25 / 55%);
+}
+
+/* OVERSKRIFT */
+#dealsDialog #dealsTitle {
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto 28px;
+
+  font: italic 800 clamp(34px, 5vw, 50px) / 1.02
+    "Barlow Condensed", Impact, sans-serif;
+
+  letter-spacing: -0.5px;
+  color: #111;
+}
+
+#dealsDialog #dealsTitle em {
+  display: inline-block;
+  padding: 0 9px 5px;
+  background: #f7c1d9;
+  font-style: inherit;
+  transform: skewX(-7deg);
+}
+
+#dealsDialog .deals-intro {
+  margin: 0 auto 8px;
+  text-align: center;
+  font: 400 16px / 1.5 "DM Sans", Arial, sans-serif;
+}
+
+#dealsDialog .deals-demo {
+  margin: 0 auto 24px;
+  max-width: 440px;
+  text-align: center;
+  color: #666;
+  font: 400 12px / 1.5 "DM Sans", Arial, sans-serif;
+}
+
+#dealsDialog .deals-options {
+  min-width: 0;
+  padding: 0;
+  margin: 0;
+  border: none;
+}
+
+#dealCards {
+  display: grid;
+  gap: 12px;
+}
+
+/* ET TILBUDSKORT */
+#dealsDialog .deal-option {
+  position: relative;
+  display: block;
+  cursor: pointer;
+}
+
+/* Radio-knappen er stadig tilgængelig med tastatur */
+#dealsDialog .deal-radio {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+#dealsDialog .deal-card {
+  display: grid;
+  grid-template-columns: 125px minmax(0, 1fr);
+  gap: 18px;
+
+  padding: 12px;
+  min-height: 166px;
+
+  border: 2px solid #e6e3e5;
+  border-radius: 22px;
+  background: white;
+
+  transition:
+    border-color 160ms ease,
+    background-color 160ms ease;
+}
+
+#dealsDialog .deal-image {
+  display: block;
+  width: 100%;
+  height: 150px;
+  border-radius: 13px;
+  object-fit: contain;
+  background: #f3eff1;
+}
+
+#dealsDialog .deal-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+  padding: 4px 0;
+}
+
+#dealsDialog .deal-name {
+  font: 700 21px / 1.15 "DM Sans", Arial, sans-serif;
+}
+
+#dealsDialog .deal-description {
+  margin-top: 6px;
+  font: 400 13px / 1.4 "DM Sans", Arial, sans-serif;
+}
+
+#dealsDialog .deal-prices {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 10px;
+  margin-top: auto;
+  padding-top: 18px;
+}
+
+#dealsDialog .deal-prices del {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+#dealsDialog .deal-prices strong {
+  color: #c42170;
+  font-size: 23px;
+  font-weight: 800;
+}
+
+/* VALGT TILBUD */
+#dealsDialog .deal-radio:checked + .deal-card {
+  border-color: #941333;
+  background: #fff2f7;
+}
+
+#dealsDialog .deal-radio:focus-visible + .deal-card {
+  outline: 3px solid #941333;
+  outline-offset: 4px;
+}
+
+#dealsDialog .deal-selected {
+  display: none;
+  margin-top: 8px;
+  color: #941333;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+#dealsDialog .deal-radio:checked + .deal-card .deal-selected {
+  display: block;
+}
+
+/* FORTSÆT */
+#dealsDialog .deals-continue {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+
+  width: 82%;
+  min-height: 78px;
+  margin: 26px auto 10px;
+  padding: 14px 20px;
+
+  border: none;
+  border-radius: 6px;
+  background: #f7c1d9;
+  color: #1e1e1c;
+  box-shadow: 0 7px 0 #941333;
+
+  font: italic 800 40px / 1
+    "Barlow Condensed", Impact, sans-serif;
+}
+
+#dealsDialog .deals-continue:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+#dealsDialog .deals-continue:not(:disabled):active {
+  transform: translateY(3px);
+  box-shadow: 0 4px 0 #941333;
+}
+
+#dealsDialog .deals-continue:focus-visible {
+  outline: 3px solid #941333;
+  outline-offset: 5px;
+}
+
+/* TELEFON */
+@media (max-width: 600px) {
+  #dealsDialog {
+    padding: 26px 16px;
+  }
+
+  #dealsDialog .deal-card {
+    grid-template-columns: 88px minmax(0, 1fr);
+    gap: 12px;
+    padding: 10px;
+    min-height: 138px;
+    border-radius: 17px;
+  }
+
+  #dealsDialog .deal-image {
+    height: 122px;
+  }
+
+  #dealsDialog .deal-name {
+    font-size: 17px;
+  }
+
+  #dealsDialog .deal-description {
+    font-size: 12px;
+  }
+
+  #dealsDialog .deal-prices {
+    gap: 7px;
+    padding-top: 12px;
+  }
+
+  #dealsDialog .deal-prices del {
+    font-size: 13px;
+  }
+
+  #dealsDialog .deal-prices strong {
+    font-size: 19px;
+  }
+
+  #dealsDialog .deals-continue {
+    min-height: 66px;
+    font-size: 34px;
+  }
+}
+
+/* Gør kun dialogen større, når den viser juledrink-voucheren */
+#modal:has(.christmas-voucher) {
+  width: min(680px, calc(100% - 24px));
+  max-width: none;
+  max-height: 90dvh;
+  padding: 45px 30px 20px;
+  overflow-y: auto;
+  background: #fff;
+}
+
+/* ROSA VOUCHER */
+.christmas-voucher {
+  position: relative;
+  overflow: hidden;
+  padding: 24px;
+  border-radius: 30px;
+  background: linear-gradient(135deg, #f7c1d9, #f8dce7);
+  color: #111;
+}
+
+/* Udskæringer i siderne */
+.christmas-voucher::before,
+.christmas-voucher::after {
+  content: "";
+  position: absolute;
+  top: 43%;
+
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #fff;
+  pointer-events: none;
+}
+
+.christmas-voucher::before {
+  left: -20px;
+}
+
+.christmas-voucher::after {
+  right: -20px;
+}
+
+/* DRINK TIL VENSTRE, TEKST TIL HØJRE */
+.christmas-voucher-top {
+  display: grid;
+  grid-template-columns: 32% minmax(0, 1fr);
+  align-items: center;
+  gap: 16px;
+}
+
+.christmas-voucher-image {
+  display: block;
+  width: 100%;
+  height: 260px;
+  object-fit: contain;
+}
+
+#modal .christmas-voucher-copy h2 {
+  margin: 0 0 10px;
+  font: italic 800 clamp(30px, 5vw, 48px) / 0.95
+    "Barlow Condensed", Impact, sans-serif;
+}
+
+#modal .christmas-voucher-reward {
+  margin: 0;
+  font: italic 600 23px / 1.25
+    "DM Sans", Arial, sans-serif;
+}
+
+.christmas-voucher-copy hr {
+  margin: 18px 0;
+  border: none;
+  border-top: 2px solid #78666d;
+}
+
+#modal .christmas-voucher-details {
+  margin: 0;
+  font: 400 15px / 1.5
+    "DM Sans", Arial, sans-serif;
+}
+
+/* KNAP MED BÆRRØD SKYGGE */
+.christmas-wallet-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  width: 94%;
+  min-height: 76px;
+  margin: 20px auto 0;
+  padding: 16px 20px;
+
+  border: 1px solid #e5abc2;
+  border-radius: 10px;
+  background: #f7c1d9;
+  color: #111;
+  box-shadow: 0 8px 0 #941333;
+
+  font: italic 800 clamp(26px, 4.5vw, 40px) / 1
+    "Barlow Condensed", Impact, sans-serif;
+}
+
+.christmas-wallet-button:not(:disabled):active {
+  transform: translateY(3px);
+  box-shadow: 0 5px 0 #941333;
+}
+
+.christmas-wallet-button:disabled {
+  cursor: default;
+}
+
+#modal .christmas-wallet-status {
+  margin: 24px 0 0;
+  text-align: center;
+  font: 400 12px / 1.4 "DM Sans", Arial, sans-serif;
+  color: #58434c;
+}
+
+/* TELEFON */
+@media (max-width: 600px) {
+  .christmas-voucher {
+    padding: 18px 14px;
+    border-radius: 24px;
+  }
+
+  .christmas-voucher-top {
+    gap: 10px;
+  }
+
+  .christmas-voucher-image {
+    height: 190px;
+  }
+
+  #modal .christmas-voucher-copy h2 {
+    font-size: 30px;
+  }
+
+  #modal .christmas-voucher-reward {
+    font-size: 17px;
+  }
+
+  #modal .christmas-voucher-details {
+    font-size: 12px;
+  }
+
+  .christmas-wallet-button {
+    width: 94%;
+    min-height: 64px;
+    padding: 14px;
+    font-size: 27px;
+  }
+}
+
+/* Smallere og centreret voucherknap */
+#modal .christmas-wallet-button {
+  width: 82%;
+  max-width: 420px;
+  margin-inline: auto;
+  font-size: clamp(22px, 4vw, 34px);
+}
+
+/* Samme flueben som i resten af spillet */
+.christmas-wallet-button .wallet-check {
+  display: block;
+  flex-shrink: 0;
+  width: 36px;
+  height: 30px;
+
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 5.5;
+  stroke-linecap: square;
+  stroke-linejoin: miter;
+}
+#modal .christmas-wallet-button {
+  justify-content: center;
+  text-align: center;
+}
