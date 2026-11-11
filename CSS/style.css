@@ -3,10 +3,10 @@
 /* FARVER */
 
 :root {
-  --pink: #f5bdd3;
+  --pink: #F7C1D9;
   --red: #941333;
-  --ink: #191719;
-  --cream: #faf2ed;
+  --ink: #1E1E1C;
+  --cream: #ffffff;
 }
 
 /* GRUNDLÆGGENDE STYLING */
@@ -19,7 +19,7 @@ body {
   margin: 0;
   background: var(--cream);
   color: var(--ink);
-  font-family: "DM Sans", Arial, sans-serif;
+  font-family: "Roboto flex", Arial, sans-serif;
 }
 
 button,
@@ -1225,3 +1225,94 @@ dialog .close {
   
 }
 
+
+/* CENTRERET LOGO UDEN BAGGRUND */
+
+header {
+  position: relative;
+  background: #ffffff;
+}
+
+header .brand {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+
+  background: transparent;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+header .brand img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  background: transparent;
+}
+
+.brand-text {
+  background: transparent;
+  color: #1E1E1C;
+  font: 800 26px "Barlow Condensed", Impact, sans-serif;
+}
+
+.brand-text span {
+  display: block;
+  font: 10px "DM Sans", sans-serif;
+  letter-spacing: 3px;
+  margin-top: 6px;
+}
+
+@media (max-width: 700px) {
+  header .brand img {
+    width: 42px;
+    height: 42px;
+  }
+
+  .brand-text {
+    font-size: 21px;
+  }
+}
+
+
+
+/* CENTRER SLICE INTO CHRISTMAS */
+
+.intro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+}
+
+.intro h1 {
+  width: fit-content;
+  max-width: 100%;
+  margin: 25px auto;
+  text-align: center;
+}
+
+.intro > p {
+  position: static;
+  margin: 0 auto 20px;
+  text-align: center;
+}
+
+.intro .ingredients {
+  justify-content: center;
+}
+
+/* MOBIL */
+
+@media (max-width: 700px) {
+  .intro h1 {
+    font-size: clamp(42px, 11vw, 76px);
+    line-height: 0.9;
+  }
+}
