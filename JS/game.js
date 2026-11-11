@@ -589,8 +589,8 @@ function fruit(f) {
     const blink = (Math.sin(time * 7) + 1) / 2;
 
     // Diskret rød glød
-    ctx.shadowColor = "#ff4569";
-    ctx.shadowBlur = 5 + blink * 13;
+    ctx.shadowColor = "#ff0000ff";
+    ctx.shadowBlur = 50 + blink * 28;
     ctx.shadowOffsetY = 0;
 
     // Let variation i gennemsigtighed
