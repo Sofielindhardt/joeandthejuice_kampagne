@@ -3,10 +3,10 @@
 /* FARVER */
 
 :root {
-  --pink: #f5bdd3;
+  --pink: #F7C1D9;
   --red: #941333;
-  --ink: #191719;
-  --cream: #faf2ed;
+  --ink: #1E1E1C;
+  --cream: #ffffff;
 }
 
 /* GRUNDLÆGGENDE STYLING */
@@ -19,7 +19,7 @@ body {
   margin: 0;
   background: var(--cream);
   color: var(--ink);
-  font-family: "DM Sans", Arial, sans-serif;
+  font-family: "Roboto flex", Arial, sans-serif;
 }
 
 button,
