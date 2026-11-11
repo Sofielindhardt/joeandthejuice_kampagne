@@ -42,7 +42,7 @@ function playButtonSound() {
 
 const imagePaths = [
   "img/appelsin.png", // 0
-  "img/hindbaer.png", // 1
+  "img/hindbær.png", // 1
   "img/tranebaer.png", // 2
   "img/æble.png", // 3
   "img/ingefaer.png", // 4
@@ -231,12 +231,13 @@ $("#modal").addEventListener("click", (event) => {
    SPILLEREGLER
 ========================================= */
 
-$("#rulesBtn").onclick = () => {
-  if (playing && !paused) {
-    togglePause();
-  }
+if ($("#rulesBtn"))
+  $("#rulesBtn").onclick = () => {
+    if (playing && !paused) {
+      togglePause();
+    }
 
-  showModal(`
+    showModal(`
     <div class="eyebrow">SÅDAN SPILLER DU</div>
 
     <h2>
@@ -275,7 +276,7 @@ $("#rulesBtn").onclick = () => {
       Ingen rigtig præmie eller app-integration.
     </p>
   `);
-};
+  };
 
 /* =========================================
    DEMOVOUCHER

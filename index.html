@@ -1,13 +1,9 @@
+
 <!DOCTYPE html>
 <html lang="da">
 <head>
   <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1"
-  >
-
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#edb3c9">
 
   <title>Slice into Christmas</title>
@@ -16,22 +12,24 @@
 </head>
 
 <body>
+
   <header>
-    <a href="./" class="brand"> 
-      <img src="img/logojoe.png" alt="logo">
+    <a href="./" class="brand"> <img src="img/logojoe.png" alt="logo">
       JOE & THE JUICE
-      
+      <span></span>
     </a>
 
   </header>
 
   <main>
+
     <section class="intro">
+     
       <h1>
         SLICE INTO<br>
         <em>CHRISTMAS</em>
+        <span class="spark">✳</span>
       </h1>
-   
 
       <p>
         Leg med ingredienserne i Merry Berry Boost.
@@ -47,8 +45,10 @@
     </section>
 
     <div class="layout">
-      <!-- Selve spillet -->
+
+      <!-- SPILLET -->
       <section class="arena" aria-label="Frugtskæringsspil">
+
         <div class="hud">
           <div>
             <span class="label" id="roundLabel">
@@ -85,12 +85,13 @@
         ></canvas>
 
         <!-- COUNTDOWN -->
-<div id="countdown" hidden>
-  <span id="countdownNumber">3</span>
-</div>
+        <div id="countdown" hidden>
+          <span id="countdownNumber">3</span>
+        </div>
 
-        <!-- Start-, pause- og resultatskærm -->
+        <!-- START, PAUSE OG RESULTAT -->
         <div class="overlay" id="overlay">
+
           <div class="tag" id="overlayTag">
             DIT ADVENTSØJEBLIK
           </div>
@@ -110,48 +111,56 @@
             <span>↗</span>
           </button>
 
+         
+
+        </div>
 
         <div class="game-footer">
           <span>✦ FRISK SMAG. GOD JULEENERGI.</span>
-          <span>SWIPE / TRÆK / MELLEMRUM</span>
+          <span>SWIPE / TRÆK </span>
         </div>
+
       </section>
 
-      <!-- Adventsfremgang -->
+      <!-- ADVENTSREJSE -->
       <aside>
-        <div class="progress-card">
-          <div class="card-top">
-            <span>DIN ADVENTSREJSE</span>
-            <span id="count">0 / 4</span>
-          </div>
 
-          <h2>
-            FIRE SMÅ PAUSER.<br>
-            <em>ÉN STOR SMAG.</em>
-          </h2>
+      
+<!-- DIN ADVENTSREJSE -->
 
-          <div id="days" class="days"></div>
+<div class="progress-card">
 
-          <p id="progressText">
-            Gennemfør en runde hver adventssøndag,
-            og få én gratis juledrink efter alle fire.
-          </p>
+  <!-- OVERSKRIFT OG FREMGANG -->
+  <div class="card-top">
+    <h2>Din adventsrejse</h2>
+    <span id="count">0/4</span>
+  </div>
 
-          <button
-            class="voucher-btn"
-            id="voucher"
-            hidden
-          >
-            SE DIN DEMOVOUCHER ↗
-          </button>
+  <!-- DE FIRE ADVENTSLÅGER -->
+  <!-- JavaScript opretter automatisk lågerne -->
+  <div id="days" class="days"></div>
 
-          <div class="demo-note">
-            <b>DU SPILLER EN PROTOTYPE</b><br>
-            Alle fire adventsrunder kan prøves nu.<br>
-            Intet login og ingen rigtig præmie.
-          </div>
-        </div>
+  <!-- BESKRIVELSE -->
+  <p id="progressText" class="progress-description">
+    Spil med hver advent og vind præmier.
+    Gennemfør alle 4 søndage og vind vores
+    Merry Berry Boost.
+  </p>
 
+  <!-- VOUCHER -->
+  <button
+    type="button"
+    class="voucher-btn"
+    id="voucher"
+    hidden
+  >
+    SE DIN DEMOVOUCHER ↗
+  </button>
+
+</div>
+
+
+        <!-- PRODUKTKORT -->
         <div class="product">
           <div class="product-art"></div>
 
@@ -168,29 +177,25 @@
             </p>
           </div>
         </div>
+
       </aside>
     </div>
 
     <div class="bottom">
-      <span>SKÆR. SMIL. GENTAG NÆSTE ADVENT.</span>
+      <span>SKÆR. GENTAG NÆSTE ADVENT.</span>
 
-      <button id="reset">
-        Nulstil min demo
-      </button>
+      
+<button id="reset" class="reset-btn" type="button">
+  <span class="reset-icon" aria-hidden="true">↺</span>
+  NULSTIL MIN DEMO
+</button>
+
     </div>
+
   </main>
 
-  <footer>
-    <span>
-      STUDIEKONCEPT · IKKE EN OFFICIEL JOE-KAMPAGNE
-    </span>
 
-    <span>
-      Fremgang gemmes kun i denne browser.
-    </span>
-  </footer>
-
-  <!-- Dialog til regler, voucher og nulstilling -->
+  <!-- DIALOG -->
   <dialog id="modal">
     <button class="close" aria-label="Luk">
       ×
@@ -206,5 +211,6 @@
   ></div>
 
   <script src="JS/game.js"></script>
+
 </body>
 </html>
