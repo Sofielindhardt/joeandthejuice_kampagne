@@ -229,10 +229,29 @@ function updateProgress() {
 function initial() {
   updateProgress();
 
-  $("#start").innerHTML =
-    completed < 4
-      ? `SPIL ${completed + 1}. ADVENT <span>↗</span>`
-      : "SPIL IGEN <span>↗</span>";
+  $("#start").innerHTML = `
+  ${completed < 4
+    ? `SPIL ${completed + 1}. ADVENT`
+    : "SPIL IGEN"
+  }
+
+  <svg
+    class="start-arrow"
+    viewBox="0 0 80 70"
+    fill="none"
+    aria-hidden="true"
+  >
+    <path
+      d="M8 60 L63 13"
+      stroke="currentColor"
+      stroke-width="3"
+    />
+    <path
+      d="M48 10 L73 5 L65 29 Z"
+      fill="currentColor"
+    />
+  </svg>
+`;
 
   $("#roundLabel").textContent = Math.min(completed + 1, 4) + ". ADVENT";
 }
@@ -754,10 +773,29 @@ function finish() {
     }
   `;
 
-  $("#start").innerHTML =
-    completed < 4
-      ? `SPIL ${completed + 1}. ADVENT <span>↗</span>`
-      : "SPIL IGEN <span>↗</span>";
+  $("#start").innerHTML = `
+  ${completed < 4
+    ? `SPIL ${completed + 1}. ADVENT`
+    : "SPIL IGEN"
+  }
+
+  <svg
+    class="start-arrow"
+    viewBox="0 0 80 70"
+    fill="none"
+    aria-hidden="true"
+  >
+    <path
+      d="M8 60 L63 13"
+      stroke="currentColor"
+      stroke-width="3"
+    />
+    <path
+      d="M48 10 L73 5 L65 29 Z"
+      fill="currentColor"
+    />
+  </svg>
+`;
 
   $("#overlayFine").textContent = "+10 for frugt. -20 for julekugle.";
 
@@ -1635,3 +1673,13 @@ function shakeGame() {
     }
   );
 }
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Tab") {
+    document.body.classList.add("keyboard-navigation");
+  }
+});
+
+document.addEventListener("pointerdown", () => {
+  document.body.classList.remove("keyboard-navigation");
+});
