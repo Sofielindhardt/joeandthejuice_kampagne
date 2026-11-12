@@ -448,7 +448,7 @@ $("#reset").onclick = () => {
     $("#pause").hidden = true;
     $("#overlay").hidden = false;
 
-    $("#overlayTitle").innerHTML = "KLAR TIL<br>ET JULESWIPE?";
+    $("#overlayTitle").innerHTML = "KLAR TIL<br>AT SLICE?";
 
     $("#overlayText").innerHTML =
       "Stryg med fingeren.<br>" +
@@ -722,7 +722,7 @@ document.addEventListener("visibilitychange", () => {
   $("#overlayTitle").innerHTML =
     completed === 4
       ? "DIN JULESMAG<br>VENTER PÅ DIG."
-      : "GODT SKÅRET.<br>VI SES IGEN!";
+      : "GODT SKÅRET.<br>VI SES NÆSTE SØNDAG!";
 
   $("#overlayText").innerHTML = `
     Du fik <strong>${score} point</strong>.
