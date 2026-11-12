@@ -833,7 +833,6 @@ dialog .close {
 
   text-shadow: 5px 7px 0 #9e486b;
 
-  transform: skew(-8deg);
   animation: countdownPop 0.8s ease-out;
 }
 
@@ -3295,4 +3294,74 @@ body.keyboard-navigation #start:focus {
   flex-shrink: 0;
   width: 40px;
   height: 36px;
+}
+
+.continue-arrow {
+  display: block;
+  flex-shrink: 0;
+  width: 40px;
+  height: 36px;
+}
+
+/* Tegnet pil på begge voucherknapper */
+.voucher-arrow {
+  display: block;
+  flex-shrink: 0;
+  width: 34px;
+  height: 30px;
+}
+
+#voucher,
+#modal .christmas-wallet-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+/* Fjern kant og skygge fra voucherens lukkeknap */
+#modal .close {
+  border: none;
+  background: transparent;
+  box-shadow: none;
+}
+
+/* Ingen fokusramme ved touch eller museklik */
+body:not(.keyboard-navigation) #modal .close:focus {
+  outline: none;
+}
+
+/* Behold fokusmarkering ved tastaturnavigation */
+body.keyboard-navigation #modal .close:focus {
+  outline: 2px solid #941333;
+  outline-offset: 3px;
+}
+
+/* Større cirkel omkring timeren */
+.timer {
+  width: 82px;
+  height: 82px;
+  flex-shrink: 0;
+  padding: 10px;
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+}
+
+.timer small {
+  white-space: nowrap;
+  line-height: 1.2;
+  margin: 0;
+}
+
+/* Lidt mindre på telefon */
+@media (max-width: 600px) {
+  .timer {
+    width: 76px;
+    height: 76px;
+  }
 }

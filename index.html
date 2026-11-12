@@ -160,13 +160,21 @@
 
   <!-- VOUCHER -->
   <button
-    type="button"
-    class="voucher-btn"
-    id="voucher"
-    hidden
-  >
-    DIN VOUCHER ↗
-  </button>
+  type="button"
+  class="voucher-btn"
+  id="voucher"
+  hidden
+>
+  <span>DIN VOUCHER</span>
+
+  <svg class="voucher-arrow" viewBox="0 0 80 70"
+       fill="none" aria-hidden="true">
+    <path d="M8 60 L63 13"
+          stroke="currentColor" stroke-width="3" />
+    <path d="M48 10 L73 5 L65 29 Z"
+          fill="currentColor" />
+  </svg>
+</button>
 
 </div>
 
@@ -342,14 +350,30 @@
     </fieldset>
 
     <button
-      type="submit"
-      class="deals-continue"
-      id="confirmDeal"
-      disabled
+    type="submit"
+    class="deals-continue"
+    id="confirmDeal"
+    disabled
+  >
+    <span>FORTSÆT</span>
+  
+    <svg
+      class="continue-arrow"
+      viewBox="0 0 80 70"
+      fill="none"
+      aria-hidden="true"
     >
-      FORTSÆT
-      <span aria-hidden="true">↗</span>
-    </button>
+      <path
+        d="M8 60 L63 13"
+        stroke="currentColor"
+        stroke-width="3"
+      />
+      <path
+        d="M48 10 L73 5 L65 29 Z"
+        fill="currentColor"
+      />
+    </svg>
+  </button>
   </form>
 
   <p class="sr" id="dealStatus" aria-live="polite"></p>

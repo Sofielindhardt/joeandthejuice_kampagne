@@ -360,13 +360,20 @@ function voucher() {
       </div>
 
       <button
-        type="button"
-        class="christmas-wallet-button"
-        id="addVoucherToWallet"
-      >
-        <span>TILFØJ I WALLET</span>
-        <span aria-hidden="true">↗</span>
-      </button>
+  type="button"
+  class="christmas-wallet-button"
+  id="addVoucherToWallet"
+>
+  <span>TILFØJ I WALLET</span>
+
+  <svg class="voucher-arrow" viewBox="0 0 80 70"
+       fill="none" aria-hidden="true">
+    <path d="M8 60 L63 13"
+          stroke="currentColor" stroke-width="3" />
+    <path d="M48 10 L73 5 L65 29 Z"
+          fill="currentColor" />
+  </svg>
+</button>
 
       <p
         class="christmas-wallet-status"
@@ -960,8 +967,13 @@ function slice(f) {
   if (f.isBomb) {
     shakeGame();
   
+    // Kort vibration på telefoner, der understøtter det
+    if (typeof navigator.vibrate === "function") {
+      navigator.vibrate(100);
+    }
+  
     bombSound.currentTime = 0;
-    bombSound.play();
+    bombSound.play().catch(() => {});
 
     score = Math.max(0, score + POINTS_BOMB);
 
