@@ -451,7 +451,7 @@ $("#reset").onclick = () => {
     $("#overlayTitle").innerHTML = "KLAR TIL<br>ET JULESWIPE?";
 
     $("#overlayText").innerHTML =
-      "Hold musen nede eller stryg med fingeren.<br>" +
+      "Stryg med fingeren.<br>" +
       "Skær frugterne, og undgå julekuglerne!";
 
     $("#overlayTag").textContent = "DIT ADVENTSØJEBLIK";
