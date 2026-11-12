@@ -300,7 +300,7 @@ if ($("#rulesBtn"))
 
       <li>
         Gennemfør alle fire adventsrunder
-        for at låse op for demovoucheren.
+        for at låse op for voucheren.
       </li>
     </ol>
 
@@ -393,7 +393,7 @@ function voucher() {
       $("#voucher").focus({ preventScroll: true });
     } catch {
       walletStatus.textContent =
-        "Browseren kunne ikke gemme demovoucheren. Prøv igen.";
+        "Browseren kunne ikke gemme voucheren. Prøv igen.";
     }
   };
 }
@@ -735,8 +735,8 @@ document.addEventListener("visibilitychange", () => {
     <br>
     ${
       completed === 4
-        ? "Åbn din demovoucher i adventsoversigten."
-        : "I demoen kan du prøve næste advent med det samme."
+        ? "Åbn din voucher i adventsoversigten."
+        : "Prøv næste advent med det samme."
     }
   `;
 
@@ -1548,8 +1548,8 @@ dealsForm.addEventListener("submit", (event) => {
   document.getElementById("overlayText").textContent =
     `Du har valgt 20 % rabat på ${product.name}. ` +
     (stored
-      ? "Dit demotilbud er gemt i denne browser."
-      : "Dit demotilbud er gemt, indtil siden genindlæses.");
+      ? "Dit tilbud er gemt."
+      : "Dit tilbud er gemt under din JOE Wallet.");
 
   document.getElementById("announce").textContent =
     `Du har valgt tilbuddet på ${product.name}.`;
