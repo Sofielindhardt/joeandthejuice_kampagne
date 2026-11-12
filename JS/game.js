@@ -20,6 +20,12 @@ function playSliceSound() {
   sliceSound.play();
 }
 
+// LYD TIL SPILLETS SIDSTE 5 SEKUNDER
+const finalCountdownSound = new Audio("sound/countdown5.mp3");
+finalCountdownSound.preload = "auto";
+
+let finalCountdownStarted = false;
+
 // BOMBE-LYD
 const bombSound = new Audio("sound/slice_the_secret_bomb_hit.wav");
 
@@ -443,24 +449,30 @@ $("#reset").onclick = () => {
     </button>
   `);
 
-  $("#confirmReset").onclick = () => {
-    $(".timer").classList.remove("is-urgent", "is-paused", "timer-tick");
-  
-    playing = false;
-    canvas.classList.remove("is-playing");
-    paused = false;
-    completed = 0;
+$("#confirmReset").onclick = () => {
+  finalCountdownSound.pause();
+  finalCountdownSound.currentTime = 0;
+  finalCountdownStarted = false;
 
-    savedDeals = {};
-    activeDealRound = null;
+  $(".timer").classList.remove("is-urgent", "is-paused", "timer-tick");
 
-    try {
-      localStorage.removeItem(KEY);
-      localStorage.removeItem(DEALS_KEY);
-      localStorage.removeItem("joe-christmas-voucher-demo");
-    } catch {
-      // Fortsæt uden localStorage
-    }
+  playing = false;
+  canvas.classList.remove("is-playing");
+  paused = false;
+  completed = 0;
+
+  savedDeals = {};
+  activeDealRound = null;
+
+  try {
+    localStorage.removeItem(KEY);
+    localStorage.removeItem(DEALS_KEY);
+    localStorage.removeItem("joe-christmas-voucher-demo");
+  } catch {
+    // Fortsæt uden localStorage
+  }
+
+  // Resten af din eksisterende nulstillingskode fortsætter her
 
     fruits = [];
     particles = [];
@@ -499,11 +511,17 @@ $("#reset").onclick = () => {
    START SPILLET
 ========================================= */
 
-function start() {
-  if (action === "resume") {
-    togglePause();
-    return;
-  }
+  function start() {
+    if (action === "resume") {
+      togglePause();
+      return;
+    }
+  
+    finalCountdownSound.pause();
+    finalCountdownSound.currentTime = 0;
+    finalCountdownStarted = false;
+  
+    // Her beholder du resten af din eksisterende kode
 
   $(".timer").classList.remove("is-urgent", "is-paused", "timer-tick");
 
@@ -677,6 +695,11 @@ function togglePause() {
   if (!playing) return;
 
   paused = !paused;
+  if (paused) {
+    finalCountdownSound.pause();
+  } else if (finalCountdownStarted && remaining > 0) {
+    finalCountdownSound.play().catch(() => {});
+  }
   canvas.classList.toggle("is-playing", !paused);
 
   $(".timer").classList.toggle("is-paused", paused);
@@ -719,6 +742,10 @@ document.addEventListener("visibilitychange", () => {
 ========================================= */
 
 function finish() {
+  finalCountdownSound.pause();
+  finalCountdownSound.currentTime = 0;
+  finalCountdownStarted = false;
+
   $(".timer").classList.remove("is-urgent", "is-paused", "timer-tick");
 
   playing = false;
@@ -761,7 +788,7 @@ function finish() {
 
   $("#overlayTitle").innerHTML =
     completed === 4
-      ? "DIN JULESMAG<br>VENTER PÅ DIG."
+      ? "DIN VOUCHER<br>VENTER PÅ DIG."
       : "GODT SKÅRET.<br>VI SES NÆSTE SØNDAG!";
 
   $("#overlayText").innerHTML = `
@@ -1202,6 +1229,16 @@ function frame(timestamp) {
     /* NEDTÆLLING */
 
     remaining -= dt;
+    // Afspil én gang, når der er 5 sekunder tilbage
+if (
+  remaining > 0 &&
+  remaining <= 5 &&
+  !finalCountdownStarted
+) {
+  finalCountdownStarted = true;
+  finalCountdownSound.currentTime = 0;
+  finalCountdownSound.play().catch(() => {});
+}
     comboTime -= dt;
     spawn -= dt;
 
