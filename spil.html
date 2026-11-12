@@ -1,0 +1,384 @@
+
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#edb3c9">
+
+  <title>Slice into Christmas</title>
+
+  <link rel="stylesheet" href="CSS/style.css">
+</head>
+
+<body>
+
+<!-- SNE -->
+<div class="christmas-background" aria-hidden="true">
+  <div id="snowfall"></div>
+</div>
+
+<!-- GRAN -->
+<div class="pine-decoration" aria-hidden="true">
+  <div class="pine pine-left">
+    <img src="img/gran.png" alt="">
+  </div>
+
+  <div class="pine pine-right">
+    <img src="img/gran.png" alt="">
+  </div>
+</div>
+
+<!-- Din eksisterende header kommer her -->
+
+  </header>
+
+  <main>
+
+    <section class="intro">
+     
+      <h1>
+        SLICE INTO<br>
+        <em>CHRISTMAS</em>
+        <span class="spark">✳</span>
+      </h1>
+
+      <p>
+        Leg med ingredienserne i Merry Berry Boost.
+      </p>
+
+      <div class="ingredients">
+        <span>TRANEBÆR</span>
+        <span>HINDBÆR</span>
+        <span>APPELSIN</span>
+        <span>ÆBLE</span>
+        <span>INGEFÆR</span>
+      </div>
+    </section>
+
+    <div class="layout">
+
+      <!-- SPILLET -->
+      <section class="arena" aria-label="Frugtskæringsspil">
+
+        <div class="hud">
+          <div>
+            <span class="label" id="roundLabel">
+              1. ADVENT
+            </span>
+
+            <strong id="score">000</strong>
+          </div>
+
+          <div class="timer">
+            <span id="time">20</span>
+            <small>SEKUNDER</small>
+          </div>
+
+          <button
+            id="pause"
+            hidden
+            aria-label="Sæt spillet på pause"
+          >
+            Ⅱ
+          </button>
+        </div>
+
+        <div class="arena-title">
+          <h1>
+            SLICE INTO<br>
+            <em>CHRISTMAS</em>
+            <span class="spark">✳</span>
+          </h1>
+        </div>
+
+        <canvas
+          id="game"
+          tabindex="0"
+          aria-label="Skær frugter ved at trække fingeren eller musen. Med tastatur: tryk mellemrum for at skære en frugt."
+        ></canvas>
+
+        <!-- COUNTDOWN -->
+        <div id="countdown" hidden>
+          <span id="countdownNumber">3</span>
+        </div>
+
+        <!-- START, PAUSE OG RESULTAT -->
+<div class="overlay" id="overlay">
+
+  <div class="tag" id="overlayTag"></div>
+
+  <h2 id="overlayTitle">
+    KLAR TIL<br>
+    AT SLICE?
+  </h2>
+
+  <p id="overlayText"></p>
+
+  <button class="primary" id="start">
+    SPIL 1. ADVENT
+    <span>↗</span>
+  </button>
+
+  <p id="overlayFine">
+    +10 for frugt. −20 for bombe.
+  </p>
+
+</div>
+
+        <div class="game-footer">
+          <span>SLICE / TRÆK </span>
+        </div>
+
+      </section>
+
+      <!-- ADVENTSREJSE -->
+      <aside>
+
+      
+<!-- DIN ADVENTSREJSE -->
+
+<div class="progress-card">
+
+  <!-- OVERSKRIFT OG FREMGANG -->
+  <div class="card-top">
+    <h3>DIN PROCESS.</h3>
+    <span id="count">0/4</span>
+  </div>
+
+  <!-- DE FIRE ADVENTSLÅGER -->
+  <!-- JavaScript opretter automatisk lågerne -->
+  <div id="days" class="days"></div>
+
+  <!-- BESKRIVELSE -->
+  <p id="progressText" class="progress-description">
+    Spil med hver advent og vind præmier.
+    Gennemfør alle 4 søndage og vind vores
+    Merry Berry Boost.
+  </p>
+
+  <!-- VOUCHER -->
+  <button
+  type="button"
+  class="voucher-btn"
+  id="voucher"
+  hidden
+>
+  <span>DIN VOUCHER</span>
+
+  <svg class="voucher-arrow" viewBox="0 0 80 70"
+       fill="none" aria-hidden="true">
+    <path d="M8 60 L63 13"
+          stroke="currentColor" stroke-width="3" />
+    <path d="M48 10 L73 5 L65 29 Z"
+          fill="currentColor" />
+  </svg>
+</button>
+
+</div>
+
+
+        <!-- PRODUKTKORT -->
+        <div class="product">
+          <div class="product-art">
+            <img
+              src="img/merryberryboost.png"
+              alt="Merry Berry Boost juledrink"
+            >
+          </div>
+
+          <div class="product-copy">
+            <span>MØD VORES NYE LIMITED EDITION</span>
+
+            <h3>
+              MERRY<br>
+              BERRY <br>
+              BOOST
+            </h3>
+
+            <p>
+            Tranebær, hindbær, appelsin, æble og et strejf af ingefær.
+            </p>
+          </div>
+        </div>
+
+      </aside>
+    </div>
+
+    <div class="bottom">
+      <span>SKÆR. <br>
+        GENTAG.<br>
+        VIND.</span>
+
+      
+<button id="reset" class="reset-btn" type="button">
+  <span class="reset-icon" aria-hidden="true">↺</span>
+  PRØV FORFRA
+</button>
+
+    </div>
+
+  </main>
+
+<!-- SPILLEREGLER FØR START -->
+<dialog id="rulesDialog" aria-labelledby="rulesTitle">
+  <button
+    type="button"
+    class="rules-close"
+    id="closeRules"
+    aria-label="Luk spilleregler"
+  >
+    ×
+  </button>
+
+  <h1 id="rulesTitle" tabindex="-1">
+    SÅDAN SPILLER DU.
+  </h1>
+
+  <div class="rules-layout">
+    <ol class="rules-list">
+      <li>Start en runde på 20 sekunder.</li>
+
+      <li>
+        Skær frugterne med et stryg med fingeren, men
+        <strong>undgå</strong> bomberne.
+      </li>
+
+      <li>
+        Spil runden færdig. Din deltagelse registreres
+        uanset din score.
+      </li>
+
+      <li>
+        Gennemfør alle fire adventssøndage for at modtage
+        en voucher til vores nye juledrink
+        <strong>gratis.</strong>
+      </li>
+    </ol>
+
+    <div class="rules-pictures" aria-hidden="true">
+      <!-- FRUGTER -->
+      <div class="rules-picture">
+        <svg
+          class="rules-mark rules-check"
+          viewBox="0 0 100 80"
+          fill="none"
+        >
+          <path d="M10 41 L36 67 L90 13" />
+        </svg>
+
+        <div class="rules-images">
+          <img src="img/tranebaer.png" alt="">
+          <img src="img/appelsin.png" alt="">
+        </div>
+      </div>
+
+      <!-- BOMBER -->
+      <div class="rules-picture">
+        <svg
+          class="rules-mark rules-cross"
+          viewBox="0 0 100 80"
+          fill="none"
+        >
+          <path d="M25 15 L75 65 M75 15 L25 65" />
+        </svg>
+
+        <div class="rules-images">
+          <img src="img/julekugle1.png" alt="">
+          <img src="img/julekugle2.png" alt="">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button type="button" class="rules-start" id="rulesStart">
+    <span>START SPIL</span>
+
+    <svg
+      class="rules-arrow"
+      viewBox="0 0 80 70"
+      fill="none"
+      aria-hidden="true"
+    >
+      <path d="M8 60 L63 13" />
+      <path d="M48 10 L73 5 L65 29 Z" />
+    </svg>
+  </button>
+</dialog>
+
+<!-- DIALOG TIL NULSTILLING OG VOUCHER -->
+<dialog id="modal">
+  <button
+    type="button"
+    class="close"
+    aria-label="Luk"
+  >
+    ×
+  </button>
+
+  <div id="modalContent"></div>
+</dialog>
+  <div
+    class="sr"
+    aria-live="polite"
+    id="announce"
+  ></div>
+
+  <!-- VÆLG TILBUD EFTER EN ADVENTSRUNDE -->
+<dialog id="dealsDialog" aria-labelledby="dealsTitle">
+  <h2 id="dealsTitle" tabindex="-1">
+    GODT SPILLET.<br>
+    VÆLG DIN DEAL.<br>
+    TRE DEALS.<br>
+    <em>ÉN ER DIN.</em>
+  </h2>
+
+  <p class="deals-intro">
+    Vælg ét af de tre tilbud, og tryk fortsæt.
+  </p>
+
+  <p class="deals-demo">
+    Prototype: Dit valg gemmes i denne browser.
+    Ingen rigtig rabat eller forbindelse til JOE Wallet.
+  </p>
+
+  <form id="dealsForm">
+    <fieldset class="deals-options">
+      <legend class="sr">Vælg ét tilbud</legend>
+      <div id="dealCards"></div>
+    </fieldset>
+
+    <button
+    type="submit"
+    class="deals-continue"
+    id="confirmDeal"
+    disabled
+  >
+    <span>FORTSÆT</span>
+  
+    <svg
+      class="continue-arrow"
+      viewBox="0 0 80 70"
+      fill="none"
+      aria-hidden="true"
+    >
+      <path
+        d="M8 60 L63 13"
+        stroke="currentColor"
+        stroke-width="3"
+      />
+      <path
+        d="M48 10 L73 5 L65 29 Z"
+        fill="currentColor"
+      />
+    </svg>
+  </button>
+  </form>
+
+  <p class="sr" id="dealStatus" aria-live="polite"></p>
+</dialog>
+
+  <script src="JS/game.js"></script>
+
+</body>
+</html>
