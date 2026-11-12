@@ -421,6 +421,7 @@ $("#reset").onclick = () => {
     $(".timer").classList.remove("is-urgent", "is-paused", "timer-tick");
   
     playing = false;
+    canvas.classList.remove("is-playing");
     paused = false;
     completed = 0;
 
@@ -498,6 +499,7 @@ function start() {
   spawn = 0.1;
 
   playing = true;
+  canvas.classList.add("is-playing");
   paused = false;
   drag = false;
 
@@ -649,6 +651,7 @@ function togglePause() {
   if (!playing) return;
 
   paused = !paused;
+  canvas.classList.toggle("is-playing", !paused);
 
   $(".timer").classList.toggle("is-paused", paused);
 
@@ -693,6 +696,7 @@ function finish() {
   $(".timer").classList.remove("is-urgent", "is-paused", "timer-tick");
 
   playing = false;
+  canvas.classList.remove("is-playing");
   paused = false;
   drag = false;
   
