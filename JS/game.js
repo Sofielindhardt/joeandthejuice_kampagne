@@ -418,6 +418,8 @@ $("#reset").onclick = () => {
   `);
 
   $("#confirmReset").onclick = () => {
+    $(".timer").classList.remove("is-urgent", "is-paused", "timer-tick");
+  
     playing = false;
     paused = false;
     completed = 0;
@@ -475,6 +477,10 @@ function start() {
     togglePause();
     return;
   }
+
+  $(".timer").classList.remove("is-urgent", "is-paused", "timer-tick");
+
+  round = Math.min(completed + 1, 4);
 
   round = Math.min(completed + 1, 4);
 
@@ -644,6 +650,8 @@ function togglePause() {
 
   paused = !paused;
 
+  $(".timer").classList.toggle("is-paused", paused);
+
   $("#pause").textContent = paused ? "▶" : "Ⅱ";
 
   $("#overlay").hidden = !paused;
@@ -681,10 +689,12 @@ document.addEventListener("visibilitychange", () => {
    AFSLUT RUNDE
 ========================================= */
 
-  function finish() {
-    playing = false;
-    paused = false;
-    drag = false;
+function finish() {
+  $(".timer").classList.remove("is-urgent", "is-paused", "timer-tick");
+
+  playing = false;
+  paused = false;
+  drag = false;
   
     // Fjern frugter, bomber, partikler og swipe-spor
     fruits = [];
@@ -1153,7 +1163,29 @@ function frame(timestamp) {
       spawn = 0.85;
     }
 
-    $("#time").textContent = Math.max(0, Math.ceil(remaining));
+    const secondsLeft = Math.max(0, Math.ceil(remaining));
+    const timer = $(".timer");
+    const timeText = $("#time");
+    
+    // Tjek, om tallet har skiftet, før vi opdaterer det
+    const secondChanged = timeText.textContent.trim() !== String(secondsLeft);
+    
+    timeText.textContent = secondsLeft;
+    
+    const urgent = secondsLeft > 0 && secondsLeft <= 5;
+    
+    timer.classList.toggle("is-urgent", urgent);
+    
+    if (urgent && secondChanged) {
+      // Start en ny puls præcis ved hvert sekundskift
+      timer.classList.remove("timer-tick");
+      void timer.offsetWidth;
+      timer.classList.add("timer-tick");
+    }
+    
+    if (!urgent) {
+      timer.classList.remove("timer-tick");
+    }
 
     /* FRUGTERNES FYSIK */
 

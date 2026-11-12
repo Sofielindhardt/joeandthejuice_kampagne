@@ -3015,3 +3015,104 @@ body > footer {
   justify-content: center;
   text-align: center;
 }
+
+/* Hele timeren pulserer de sidste 5 sekunder */
+.timer.is-urgent {
+  border: 2px solid white;
+  background: #24151e;
+
+  transform-origin: top right;
+
+  box-shadow:
+    0 0 12px rgb(255 255 255 / 65%),
+    0 0 28px rgb(255 255 255 / 35%);
+
+  animation: urgentTimerPulse 0.55s ease-out infinite;
+}
+
+/* Tallet følger hele timerens animation */
+.timer.is-urgent #time {
+  display: block;
+  font-size: 32px;
+  line-height: 1;
+  color: white;
+
+  animation: none;
+  transform: none;
+
+  text-shadow: 0 0 10px rgb(255 255 255 / 80%);
+}
+
+/* SEKUNDER bliver også hvid og tydelig */
+.timer.is-urgent small {
+  color: white;
+  font-size: 9px;
+  letter-spacing: 0.5px;
+  margin-top: 3px;
+
+  text-shadow: 0 0 6px rgb(255 255 255 / 60%);
+}
+
+/* Hurtigt ud – roligt tilbage */
+@keyframes urgentTimerPulse {
+  0%, 100% {
+    transform: scale(1.15);
+  }
+
+  20% {
+    transform: scale(1.5);
+  }
+}
+
+/* Frys hele effekten ved pause */
+.timer.is-urgent.is-paused {
+  animation-play-state: paused;
+}
+
+/* Lidt mindre på telefon, så der stadig er plads */
+@media (max-width: 600px) {
+  @keyframes urgentTimerPulse {
+    0%, 100% {
+      transform: scale(1.1);
+    }
+
+    20% {
+      transform: scale(1.35);
+    }
+  }
+
+  .timer.is-urgent #time {
+    font-size: 28px;
+  }
+
+  .timer.is-urgent small {
+    font-size: 8px;
+  }
+}
+
+/* Tydelig fremhævning uden bevægelse */
+@media (prefers-reduced-motion: reduce) {
+  .timer.is-urgent {
+    animation: none;
+    transform: scale(1.1);
+  }
+}
+
+/* Én puls pr. sekund */
+.timer.is-urgent {
+  animation: none;
+}
+
+.timer.is-urgent.timer-tick {
+  animation: urgentTimerPulse 1s ease-out;
+}
+
+.timer.is-urgent.is-paused {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .timer.is-urgent.timer-tick {
+    animation: none;
+  }
+}
