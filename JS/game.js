@@ -454,7 +454,7 @@ $("#reset").onclick = () => {
       "Stryg med fingeren.<br>" +
       "Skær frugterne, og undgå julekuglerne!";
 
-    $("#overlayTag").textContent = "DIT ADVENTSØJEBLIK";
+    $("#overlayTag").textContent = "JOE & THE JUICE";
 
     $("#overlayFine").textContent = "+10 for frugt. -20 for julekugle.";
 
