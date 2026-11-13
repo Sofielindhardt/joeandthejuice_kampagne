@@ -229,7 +229,13 @@ function updateProgress() {
   $("#progressText").textContent =
     completed === 4
       ? "Alle fire adventsrunder er gennemført. Din voucher er klar!"
-      : "Gennemfør alle 4 søndage og vind en voucher til vores Merry Berry Boost GRATIS.";
+      : "Efter hver runde vælger du en deal. Gennemfør alle 4 søndage, og få en gratis Merry Berry Boost.";
+
+  // Status over drinken
+  $("#productStatus").innerHTML =
+    completed === 4
+      ? "4 UD AF 4 ADVENTER GENNEMFØRT<br>DIN GRATIS MERRY BERRY BOOST ER KLAR"
+      : `${completed} UD AF 4 ADVENTER GENNEMFØRT<br>GRATIS MERRY BERRY BOOST EFTER ALLE 4`;
 }
 
 function initial() {
