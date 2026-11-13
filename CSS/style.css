@@ -1,4 +1,3 @@
-
 @import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;0,900;1,800;1,900&family=DM+Sans:wght@400;500;600;700&display=swap");
 
 /* =========================================
@@ -6,9 +5,9 @@
 ========================================= */
 
 :root {
-  --pink: #F7C1D9;
+  --pink: #f7c1d9;
   --red: #941333;
-  --ink: #1E1E1C;
+  --ink: #1e1e1c;
   --cream: #ffffff;
 }
 
@@ -64,8 +63,10 @@ header {
 }
 
 .brand {
-  font: 800 26px "Barlow Condensed",
-    Impact, sans-serif;
+  font:
+    800 26px "Barlow Condensed",
+    Impact,
+    sans-serif;
 
   color: inherit;
   text-decoration: none;
@@ -73,7 +74,9 @@ header {
 
 .brand span {
   display: block;
-  font: 10px "DM Sans", sans-serif;
+  font:
+    10px "DM Sans",
+    sans-serif;
   letter-spacing: 4px;
   margin-top: 5px;
 }
@@ -135,8 +138,10 @@ main {
 /* OVERSKRIFT */
 
 h1 {
-  font: 900 clamp(58px, 7.2vw, 108px) / 0.86
-    "Barlow Condensed", Impact, sans-serif;
+  font:
+    900 clamp(58px, 7.2vw, 108px) / 0.86 "Barlow Condensed",
+    Impact,
+    sans-serif;
 
   letter-spacing: -2px;
   margin: 24px 0 26px;
@@ -211,12 +216,7 @@ h1 em {
   min-width: 0;
 
   background:
-    radial-gradient(
-      ellipse at 50% 100%,
-      #4b1529,
-      transparent 65%
-    ),
-    #171719;
+    radial-gradient(ellipse at 50% 100%, #4b1529, transparent 65%), #171719;
 
   border-radius: 18px;
   overflow: hidden;
@@ -232,11 +232,7 @@ h1 em {
   position: absolute;
   inset: 0;
 
-  background-image:
-    radial-gradient(
-      #ffffff15 1px,
-      transparent 1px
-    );
+  background-image: radial-gradient(#ffffff15 1px, transparent 1px);
 
   background-size: 27px 27px;
   pointer-events: none;
@@ -268,8 +264,10 @@ h1 em {
 }
 
 .hud strong {
-  font: 700 44px "Barlow Condensed",
-    Impact, sans-serif;
+  font:
+    700 44px "Barlow Condensed",
+    Impact,
+    sans-serif;
 
   display: block;
 }
@@ -292,8 +290,10 @@ h1 em {
 }
 
 .timer span {
-  font: 700 28px "Barlow Condensed",
-    Impact, sans-serif;
+  font:
+    700 28px "Barlow Condensed",
+    Impact,
+    sans-serif;
 }
 
 /* PAUSE */
@@ -324,8 +324,10 @@ h1 em {
   width: 100%;
   text-align: center;
 
-  font: 900 65px / 0.94
-    "Barlow Condensed", Impact, sans-serif;
+  font:
+    900 65px / 0.94 "Barlow Condensed",
+    Impact,
+    sans-serif;
 
   opacity: 0.055;
   pointer-events: none;
@@ -379,8 +381,10 @@ canvas {
 }
 
 .overlay h2 {
-  font: italic 800 64px / 0.95
-    "Barlow Condensed", Impact, sans-serif;
+  font:
+    italic 800 64px / 0.95 "Barlow Condensed",
+    Impact,
+    sans-serif;
 
   margin: 22px 0;
   color: var(--cream);
@@ -407,8 +411,10 @@ canvas {
 
   text-align: left;
 
-  font: italic 800 24px
-    "Barlow Condensed", Impact, sans-serif;
+  font:
+    italic 800 24px "Barlow Condensed",
+    Impact,
+    sans-serif;
 
   box-shadow: 0 4px 0 #d387a3;
 }
@@ -492,8 +498,10 @@ aside {
 
   color: #111111;
 
-  font: 700 clamp(19px, 2vw, 26px)/1.2
-    "DM Sans", Arial, sans-serif;
+  font:
+    700 clamp(19px, 2vw, 26px)/1.2 "DM Sans",
+    Arial,
+    sans-serif;
 
   font-style: normal;
 }
@@ -501,8 +509,10 @@ aside {
 .progress-card #count {
   color: #111111;
 
-  font: 700 21px/1
-    "DM Sans", Arial, sans-serif;
+  font:
+    700 21px/1 "DM Sans",
+    Arial,
+    sans-serif;
 
   white-space: nowrap;
 }
@@ -552,8 +562,10 @@ aside {
 
   background: transparent;
 
-  font: 800 27px/1
-    "DM Sans", Arial, sans-serif;
+  font:
+    800 27px/1 "DM Sans",
+    Arial,
+    sans-serif;
 
   color: #111111;
 }
@@ -566,8 +578,10 @@ aside {
 
   color: #9895a0;
 
-  font: 700 9px/1.2
-    "DM Sans", Arial, sans-serif;
+  font:
+    700 9px/1.2 "DM Sans",
+    Arial,
+    sans-serif;
 
   white-space: nowrap;
 }
@@ -658,9 +672,7 @@ aside {
 .product-art {
   width: 45%;
 
-  background:
-    url("assets/campaign.png")
-    center top / 100% auto no-repeat;
+  background: url("assets/campaign.png") center top / 100% auto no-repeat;
 }
 
 .product-copy {
@@ -675,8 +687,10 @@ aside {
 }
 
 h3 {
-  font: italic 800 29px / 0.95
-    "Barlow Condensed", Impact, sans-serif;
+  font:
+    italic 800 29px / 0.95 "Barlow Condensed",
+    Impact,
+    sans-serif;
 
   margin: 12px 0;
 }
@@ -750,8 +764,10 @@ dialog::backdrop {
 }
 
 dialog h2 {
-  font: italic 800 42px / 1
-    "Barlow Condensed", Impact, sans-serif;
+  font:
+    italic 800 42px / 1 "Barlow Condensed",
+    Impact,
+    sans-serif;
 }
 
 dialog p,
@@ -779,8 +795,10 @@ dialog .close {
 }
 
 .ticket strong {
-  font: italic 800 36px
-    "Barlow Condensed", Impact, sans-serif;
+  font:
+    italic 800 36px "Barlow Condensed",
+    Impact,
+    sans-serif;
 
   display: block;
 }
@@ -858,7 +876,6 @@ dialog .close {
 ========================================= */
 
 @media (max-width: 900px) {
-
   .intro > p {
     position: static;
   }
@@ -907,7 +924,6 @@ dialog .close {
 ========================================= */
 
 @media screen and (max-width: 700px) {
-
   html,
   body {
     width: 100%;
@@ -1154,8 +1170,7 @@ dialog .close {
   }
 
   .progress-card .days {
-    grid-template-columns:
-      repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 7px;
   }
 
@@ -1283,7 +1298,6 @@ dialog .close {
 ========================================= */
 
 @media screen and (max-width: 375px) {
-
   main {
     padding-left: 12px;
     padding-right: 12px;
@@ -1346,7 +1360,6 @@ dialog .close {
     font-size: 24px;
   }
 }
-
 
 /* =====================================
    GENSKAB TIDLIGERE DESIGNÆNDRINGER
@@ -1659,7 +1672,6 @@ header #rulesBtn {
 ===================================== */
 
 @media (max-width: 700px) {
-
   header {
     min-height: 95px;
     padding: 15px 12px;
@@ -1713,7 +1725,6 @@ header #rulesBtn {
 }
 
 @media (max-width: 400px) {
-
   header .brand .brand-name {
     font-size: 19px;
   }
@@ -1727,7 +1738,6 @@ header #rulesBtn {
     font-size: 47px;
   }
 }
-
 
 /* ENSARTET ADVENTSKORT */
 
@@ -1830,7 +1840,6 @@ header #rulesBtn {
   }
 }
 
-
 /* =====================================
    NULSTIL MIN DEMO – NY KNAP
 ===================================== */
@@ -1910,7 +1919,6 @@ header #rulesBtn {
     transition: none;
   }
 }
-
 
 /* RET ADVENTSLÅGERNES STØRRELSE */
 
@@ -2015,7 +2023,9 @@ header #rulesBtn {
   box-shadow: none;
 
   color: #20201e;
-  font: 28px/1 Arial, sans-serif;
+  font:
+    28px/1 Arial,
+    sans-serif;
   cursor: pointer;
 }
 
@@ -2066,7 +2076,6 @@ header #rulesBtn {
 #rulesDialog .rules-pictures {
   display: grid;
   gap: 32px;
-  
 }
 
 #rulesDialog .rules-picture {
@@ -2407,8 +2416,7 @@ body > footer {
   background: #dfa0ba;
   opacity: 0.75;
 
-  animation: snowfall var(--snow-duration)
-    linear var(--snow-delay) infinite;
+  animation: snowfall var(--snow-duration) linear var(--snow-delay) infinite;
 }
 
 @keyframes snowfall {
@@ -2466,7 +2474,8 @@ body > footer {
 
 /* Denne animation manglede før */
 @keyframes pineSwayVisible {
-  0%, 100% {
+  0%,
+  100% {
     transform: rotate(-4deg);
   }
 
@@ -2481,7 +2490,8 @@ body > footer {
 }
 
 @keyframes adventGlow {
-  0%, 100% {
+  0%,
+  100% {
     box-shadow:
       0 0 0 0 rgb(148 19 51 / 30%),
       0 0 8px rgb(148 19 51 / 15%);
@@ -2565,7 +2575,8 @@ body > footer {
 }
 
 @keyframes adventLight {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0.15;
   }
 
@@ -2611,8 +2622,10 @@ body > footer {
   max-width: 100%;
   margin: 0 auto 28px;
 
-  font: italic 800 clamp(34px, 5vw, 50px) / 1.02
-    "Barlow Condensed", Impact, sans-serif;
+  font:
+    italic 800 clamp(34px, 5vw, 50px) / 1.02 "Barlow Condensed",
+    Impact,
+    sans-serif;
 
   letter-spacing: -0.5px;
   color: #111;
@@ -2629,7 +2642,10 @@ body > footer {
 #dealsDialog .deals-intro {
   margin: 0 auto 8px;
   text-align: center;
-  font: 400 16px / 1.5 "DM Sans", Arial, sans-serif;
+  font:
+    400 16px / 1.5 "DM Sans",
+    Arial,
+    sans-serif;
 }
 
 #dealsDialog .deals-demo {
@@ -2637,7 +2653,10 @@ body > footer {
   max-width: 440px;
   text-align: center;
   color: #666;
-  font: 400 12px / 1.5 "DM Sans", Arial, sans-serif;
+  font:
+    400 12px / 1.5 "DM Sans",
+    Arial,
+    sans-serif;
 }
 
 #dealsDialog .deals-options {
@@ -2702,12 +2721,18 @@ body > footer {
 }
 
 #dealsDialog .deal-name {
-  font: 700 21px / 1.15 "DM Sans", Arial, sans-serif;
+  font:
+    700 21px / 1.15 "DM Sans",
+    Arial,
+    sans-serif;
 }
 
 #dealsDialog .deal-description {
   margin-top: 6px;
-  font: 400 13px / 1.4 "DM Sans", Arial, sans-serif;
+  font:
+    400 13px / 1.4 "DM Sans",
+    Arial,
+    sans-serif;
 }
 
 #dealsDialog .deal-prices {
@@ -2771,8 +2796,10 @@ body > footer {
   color: #1e1e1c;
   box-shadow: 0 7px 0 #941333;
 
-  font: italic 800 40px / 1
-    "Barlow Condensed", Impact, sans-serif;
+  font:
+    italic 800 40px / 1 "Barlow Condensed",
+    Impact,
+    sans-serif;
 }
 
 #dealsDialog .deals-continue:disabled {
@@ -2894,14 +2921,18 @@ body > footer {
 
 #modal .christmas-voucher-copy h2 {
   margin: 0 0 10px;
-  font: italic 800 clamp(30px, 5vw, 48px) / 0.95
-    "Barlow Condensed", Impact, sans-serif;
+  font:
+    italic 800 clamp(30px, 5vw, 48px) / 0.95 "Barlow Condensed",
+    Impact,
+    sans-serif;
 }
 
 #modal .christmas-voucher-reward {
   margin: 0;
-  font: italic 600 23px / 1.25
-    "DM Sans", Arial, sans-serif;
+  font:
+    italic 600 23px / 1.25 "DM Sans",
+    Arial,
+    sans-serif;
 }
 
 .christmas-voucher-copy hr {
@@ -2912,8 +2943,10 @@ body > footer {
 
 #modal .christmas-voucher-details {
   margin: 0;
-  font: 400 15px / 1.5
-    "DM Sans", Arial, sans-serif;
+  font:
+    400 15px / 1.5 "DM Sans",
+    Arial,
+    sans-serif;
 }
 
 /* KNAP MED BÆRRØD SKYGGE */
@@ -2934,8 +2967,10 @@ body > footer {
   color: #111;
   box-shadow: 0 8px 0 #941333;
 
-  font: italic 800 clamp(26px, 4.5vw, 40px) / 1
-    "Barlow Condensed", Impact, sans-serif;
+  font:
+    italic 800 clamp(26px, 4.5vw, 40px) / 1 "Barlow Condensed",
+    Impact,
+    sans-serif;
 }
 
 .christmas-wallet-button:not(:disabled):active {
@@ -2950,7 +2985,10 @@ body > footer {
 #modal .christmas-wallet-status {
   margin: 24px 0 0;
   text-align: center;
-  font: 400 12px / 1.4 "DM Sans", Arial, sans-serif;
+  font:
+    400 12px / 1.4 "DM Sans",
+    Arial,
+    sans-serif;
   color: #58434c;
 }
 
@@ -3054,7 +3092,8 @@ body > footer {
 
 /* Hurtigt ud – roligt tilbage */
 @keyframes urgentTimerPulse {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1.15);
   }
 
@@ -3071,7 +3110,8 @@ body > footer {
 /* Lidt mindre på telefon, så der stadig er plads */
 @media (max-width: 600px) {
   @keyframes urgentTimerPulse {
-    0%, 100% {
+    0%,
+    100% {
       transform: scale(1.1);
     }
 
@@ -3364,4 +3404,193 @@ body.keyboard-navigation #modal .close:focus {
     width: 76px;
     height: 76px;
   }
+}
+
+/* Kompakt introduktion */
+.intro.intro-campaign {
+  padding: 25px 8px 18px;
+  margin-bottom: 12px;
+}
+
+.intro.intro-campaign h1 {
+  margin-bottom: 20px;
+}
+
+.intro.intro-campaign .campaign-heading {
+  margin: 0 0 10px;
+  font-family: "Barlow Condensed", Impact, sans-serif;
+  font-size: 25px;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.intro.intro-campaign > p {
+  position: static;
+  max-width: 500px;
+  margin: 0 auto 10px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.intro.intro-campaign .campaign-note {
+  font-size: 11px;
+  color: #64535b;
+}
+
+/* Trin uden automatisk nummerering */
+.intro-campaign .campaign-steps {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  list-style: none;
+  padding: 0;
+  margin: 8px 0 0;
+}
+
+.campaign-steps li {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.campaign-steps li span {
+  display: inline-grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #f7c1d9;
+  color: #191719;
+}
+
+/* Mindre gran, så overskriften ikke dækkes */
+.pine-decoration {
+  height: 160px;
+}
+
+.pine-decoration .pine {
+  width: 180px;
+  top: -30px;
+}
+
+.pine-decoration .pine-left {
+  left: -40px;
+}
+
+.pine-decoration .pine-right {
+  right: -40px;
+}
+
+.intro.intro-campaign .campaign-heading {
+  max-width: 480px;
+  margin: 0 auto 12px;
+  font-size: clamp(23px, 5vw, 30px);
+  line-height: 1.15;
+  text-wrap: balance;
+}
+
+/* Overskrift og drink ved siden af hinanden */
+.intro-campaign .campaign-hero {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto 20px;
+}
+
+.intro.intro-campaign .campaign-hero h1 {
+  flex: 1;
+  min-width: 0;
+  width: auto;
+  margin: 0;
+  font-size: clamp(32px, 8vw, 68px);
+}
+
+.intro-campaign .campaign-hero h1 em {
+  padding: 0 5px 4px;
+}
+
+.intro-campaign .campaign-drink {
+  display: block;
+  flex: 0 0 auto;
+  width: 28%;
+  max-width: 150px;
+  height: auto;
+}
+
+/* Små mobilskærme */
+@media (max-width: 400px) {
+  .intro-campaign .campaign-hero {
+    gap: 8px;
+  }
+
+  .intro.intro-campaign .campaign-hero h1 {
+    font-size: 8vw;
+    letter-spacing: -0.5px;
+  }
+}
+
+/* Større overskrift og tættere placering */
+.intro-campaign .campaign-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 100px;
+  align-items: center;
+  gap: 8px;
+  max-width: 600px;
+  margin: 0 auto 20px;
+}
+
+.intro.intro-campaign .campaign-hero h1 {
+  width: 100%;
+  margin: 0;
+  font-size: clamp(40px, 11vw, 72px);
+  line-height: 0.9;
+  letter-spacing: -1px;
+  transform: translateX(42px);
+}
+
+.intro-campaign .campaign-hero h1 em {
+  padding: 0 4px 4px;
+}
+
+.intro-campaign .campaign-drink {
+  width: 100%;
+  max-width: none;
+  height: auto;
+}
+
+/* Stor overskrift med drink ved siden af */
+.intro-campaign .campaign-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 85px;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto 20px;
+}
+
+.intro.intro-campaign .campaign-hero h1 {
+  width: 100%;
+  margin: 0;
+  font-size: clamp(48px, 14vw, 90px);
+  line-height: 0.9;
+  letter-spacing: -1.5px;
+  text-align: left;
+}
+
+.intro-campaign .campaign-hero h1 em {
+  padding: 0 3px 4px;
+}
+
+.intro-campaign .campaign-drink {
+  display: block;
+  width: 100%;
+  max-width: none;
+  height: auto;
 }
